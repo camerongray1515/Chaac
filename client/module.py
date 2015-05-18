@@ -12,6 +12,7 @@ class ResultLevel(Enum):
     major = 2
     minor = 1
     ok = 0
+    unknown = -1
 
 
 class ModuleResult(object):
