@@ -5,6 +5,7 @@ fsm = FSM()
 # The methods specified here can be called by the server
 permitted_methods = ["fetch_init", "update_client", "get_data"]
 
+# TODO: Rename to something like "init_module" or "check_module"
 def fetch_init(module_name, module_version):
     fsm.enforce_state(States.ready)
 
@@ -12,6 +13,11 @@ def fetch_init(module_name, module_version):
 
 def update_client(payload):
     fsm.enforce_state(States.out_of_date)
+
+    fsm.transition_to_state(States.up_to_date)
+
+def load_module():
+    fsm.enforce_state(States.up_to_date)
 
     fsm.transition_to_state(States.module_loaded)
 

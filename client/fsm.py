@@ -6,8 +6,8 @@ class InvalidStateException(Exception):
 class States(Enum):
     ready = 0
     out_of_date = 1
-    module_loaded = 2
-    running = 3
+    up_to_date = 2
+    module_loaded = 3
 
 
 class FSM(object):
