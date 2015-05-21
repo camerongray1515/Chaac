@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI verified="false" xmi.version="1.2" timestamp="2015-05-20T00:05:57" xmlns:UML="http://schema.omg.org/spec/UML/1.3">
+<XMI verified="false" xmi.version="1.2" timestamp="2015-05-21T21:45:45" xmlns:UML="http://schema.omg.org/spec/UML/1.3">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller http://umbrello.kde.org</XMI.exporter>
@@ -38,7 +38,7 @@
         <messages/>
         <associations/>
        </diagram>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="1" showstereotype="1" name="client_state" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="676" canvaswidth="749" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="99" xmi.id="plDOwFuxWK9e" documentation="" showscope="1" snapgrid="1" showatts="1" type="5">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="1" showstereotype="1" name="client_state" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="118" canvaswidth="612" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffff00" zoom="99" xmi.id="plDOwFuxWK9e" documentation="" showscope="1" snapgrid="1" showatts="1" type="5">
         <widgets>
          <statewidget linecolor="none" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="-525" showstereotype="1" y="-250" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="DEppYrqELppS" statename="State" statetype="0" width="10" isinstance="0" usefillcolor="1" fillcolor="#ffff00" xmi.id="VZVT3pGn3ejG" documentation="" height="10">
           <Activities/>
@@ -52,7 +52,7 @@
          <statewidget linecolor="none" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="-75" showstereotype="1" y="-250" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="PkFvMaqYzlf9" statename="module_loaded" statetype="1" width="117" isinstance="0" usefillcolor="1" fillcolor="#ffff00" xmi.id="Ax8y2WcjjjZ8" documentation="" height="24">
           <Activities/>
          </statewidget>
-         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-225" showstereotype="1" y="-275" text="[no update]/fetch_init" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="yyLEVYl2WyIV" pretext="" role="703" width="144" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="jd2vW6Egom0J" height="18"/>
+         <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-225" showstereotype="1" y="-275" text="[no update]/init_module" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="yyLEVYl2WyIV" pretext="" role="703" width="158" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="jd2vW6Egom0J" height="18"/>
          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-225" showstereotype="1" y="-225" text="get_data" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="TjTHVTY62eM2" pretext="" role="703" width="64" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="Zn0QaDkwA9o5" height="18"/>
          <statewidget linecolor="none" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="-50" showstereotype="1" y="-325" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="8mhYC5CaUkzQ" statename="up_to_date" statetype="1" width="88" isinstance="0" usefillcolor="1" fillcolor="#ffff00" xmi.id="OGr2k24AizGF" documentation="" height="24">
           <Activities/>
@@ -71,9 +71,9 @@
            <startpoint startx="-374" starty="-250"/>
            <endpoint endx="-250" endy="-301"/>
           </linepath>
-          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-450" showstereotype="1" y="-300" text="[want update]/fetch_init" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="XYyDIymLZCv4" pretext="" role="703" width="158" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="JAjaMVqYpgTo" height="18"/>
+          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-450" showstereotype="1" y="-300" text="[want update]/init_module" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="XYyDIymLZCv4" pretext="" role="703" width="172" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="JAjaMVqYpgTo" height="18"/>
          </assocwidget>
-         <assocwidget roleBdoc="" linecolor="none" indexa="1" usesdiagramfillcolor="64" widgetbid="MdNfSA5xjaQn" indexb="1" linewidth="none" seqnum="" textcolor="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" roleAdoc="" widgetaid="Ax8y2WcjjjZ8" font="Sans Serif,9,-1,0,50,0,0,0,0,0" visibilityA="0" visibilityB="0" usefillcolor="1" fillcolor="none" changeabilityA="900" changeabilityB="900" documentation="" type="514">
+         <assocwidget roleBdoc="" linecolor="none" indexa="1" usesdiagramfillcolor="1" widgetbid="MdNfSA5xjaQn" indexb="1" linewidth="none" seqnum="" textcolor="none" usesdiagramusefillcolor="0" totalcounta="2" totalcountb="2" roleAdoc="" widgetaid="Ax8y2WcjjjZ8" font="Sans Serif,9,-1,0,50,0,0,0,0,0" visibilityA="0" visibilityB="0" usefillcolor="1" fillcolor="none" changeabilityA="900" changeabilityB="900" documentation="" type="514">
           <linepath layout="Polyline">
            <startpoint startx="-75" starty="-226"/>
            <endpoint endx="-374" endy="-226"/>
