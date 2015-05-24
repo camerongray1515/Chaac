@@ -2,6 +2,7 @@ import paramiko
 import threading
 import socket
 import sys
+import traceback
 
 class ParamikoServer(paramiko.ServerInterface):
     def __init__(self):
@@ -101,6 +102,8 @@ class SSHServer():
         except Exception as ex:
             # If we hit an exception, close everything and restart the server
             print("Caught Exception: {0}".format(str(ex)))
+            print(traceback.format_exc())
+
 
             try:
                 transport.close()
