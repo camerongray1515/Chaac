@@ -12,11 +12,8 @@
 }
 
 (1): The result format depends on the request method used.
-    - init_plugin: {"want_update": True/False}
+    - check_version: {"want_update": True/False}
     - get_data: {'level': "", 'message': "", 'value': ""}    
     - Also has the following errors (where error==True):
-        - "invalid_state": The client did not expect the command that it was sent and will have been reset back
-                           to the initial state.  Start sending all commands again and ensure that they are being
-                           sent in the correct order.
         - "plugin_not_found": The plugin was not found on the server when the request to get data from it was sent
         - "invalid_method": The value for the method argument in the request was not recognised as a valid method

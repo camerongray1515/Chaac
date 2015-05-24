@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<XMI verified="false" xmi.version="1.2" timestamp="2015-05-24T16:24:07" xmlns:UML="http://schema.omg.org/spec/UML/1.3">
+<XMI verified="false" xmi.version="1.2" timestamp="2015-05-24T23:50:27" xmlns:UML="http://schema.omg.org/spec/UML/1.3">
  <XMI.header>
   <XMI.documentation>
    <XMI.exporter>umbrello uml modeller http://umbrello.kde.org</XMI.exporter>
@@ -13,6 +13,8 @@
    <UML:Namespace.ownedElement>
     <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="folder" name="folder"/>
     <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="datatype" name="datatype"/>
+    <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="interface" name="interface"/>
+    <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="enum" name="enum"/>
     <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Logical View" name="Logical View">
      <UML:Namespace.ownedElement>
       <UML:Package stereotype="folder" visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Datatypes" name="Datatypes">
@@ -37,7 +39,7 @@
       </UML:Class>
       <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="7a9CsoxuPrjM" name="Client">
        <UML:Classifier.feature>
-        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="GMzu698BzDeD" comment="Initialises the fetch by informing the client what plugin we are fetching from and the latest verion number of that plugin that the server has." name="init_plugin">
+        <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="GMzu698BzDeD" comment="Initialises the fetch by informing the client what plugin we are fetching from and the latest verion number of that plugin that the server has." name="check_version">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="NQIv2KDfquGc" type="ZqY8RhNrMV1U" value="" name="plugin_name"/>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="V1dHx9luAhwz" type="Dy0ljedNpl8d" value="" name="plugin_version"/>
@@ -46,18 +48,21 @@
         </UML:Operation>
         <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="JH0qfcSQUP7I" comment="If the client requested an updated version of the module, send it over" name="update_client">
          <UML:BehavioralFeature.parameter>
+          <UML:Parameter visibility="private" isSpecification="false" xmi.id="qpcZuOLJPcnC" type="ZqY8RhNrMV1U" value="" name="plugin_name"/>
           <UML:Parameter visibility="private" isSpecification="false" xmi.id="TNwRLkKf0KTf" type="EMLPkDISlsCY" value="" comment="The raw binary form of the module that the cleint should update to." name="code_payload"/>
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
         <UML:Operation visibility="public" isSpecification="false" isQuery="false" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="q8yfNBLCiZWb" comment="Requests the data from the client - This will execute the module" name="get_data">
          <UML:BehavioralFeature.parameter>
-          <UML:Parameter visibility="private" isSpecification="false" kind="out" xmi.id="DrCbZPFnQRee" type="AKPZgJcdh32a" value="" comment="JSON object containing the data that the client should return to the server." name="data"/>
+          <UML:Parameter visibility="private" isSpecification="false" xmi.id="aX9VidT9avUC" type="ZqY8RhNrMV1U" value="" name="plugin_name"/>
+          <UML:Parameter visibility="private" isSpecification="false" kind="out" xmi.id="QKhouVyElBAF" type="TzSLbgQPV2zQ" value="" comment="JSON object containing the data that the client should return to the server." name="data"/>
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
        </UML:Classifier.feature>
       </UML:Class>
       <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="AKPZgJcdh32a" name="json"/>
       <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="EMLPkDISlsCY" name="blob"/>
+      <UML:Class visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="TzSLbgQPV2zQ" name="dict"/>
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
       <diagrams>
@@ -66,21 +71,21 @@
         <messages/>
         <associations/>
        </diagram>
-       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="1" showstereotype="1" name="Server fetch from Client" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="449" canvaswidth="602.2535400390625" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" autoincrementsequence="0" usefillcolor="1" fillcolor="#ffff00" zoom="140" xmi.id="FijEEvBefQUR" documentation="" showscope="1" snapgrid="0" showatts="1" type="3">
+       <diagram showopsig="1" linecolor="#ff0000" snapx="25" showattribassocs="1" snapy="25" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="1" showstereotype="1" name="Server fetch from Client" font="Sans Serif,9,-1,0,50,0,0,0,0,0" canvasheight="449" canvaswidth="674.3689246544475" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#d3d3d3" backgroundcolor="#ffffff" autoincrementsequence="0" usefillcolor="1" fillcolor="#ffff00" zoom="104" xmi.id="FijEEvBefQUR" documentation="" showscope="1" snapgrid="0" showatts="1" type="3">
         <widgets>
          <objectwidget linecolor="none" usesdiagramfillcolor="1" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="1" x="-1831.5" decon="0" showstereotype="1" y="80" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="kzn9RDuL0hzL" width="62" isinstance="0" multipleinstance="0" usefillcolor="1" fillcolor="none" xmi.id="gQ19RTN9DZL8" height="24" drawasactor="0"/>
-         <objectwidget linecolor="none" usesdiagramfillcolor="1" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="1" x="-1323" decon="0" showstereotype="1" y="80" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="SMx5lxJrWeJc" width="57" isinstance="0" multipleinstance="0" usefillcolor="1" fillcolor="none" xmi.id="7a9CsoxuPrjM" height="24" drawasactor="0"/>
-         <combinedFragmentwidget linecolor="none" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="-1863.380249023438" showstereotype="1" y="159.8591613769531" font="Sans Serif,9,-1,0,50,0,0,0,0,0" CombinedFragmenttype="1" localid="F9VioQbsnr3Q" combinedFragmentname="" width="602.2535400390625" isinstance="0" usefillcolor="1" fillcolor="#ffff00" xmi.id="LYQCqbMYYLS0" documentation="" height="98.02816772460938"/>
+         <objectwidget linecolor="none" usesdiagramfillcolor="1" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="1" x="-1258.576923076923" decon="0" showstereotype="1" y="80" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="SMx5lxJrWeJc" width="57" isinstance="0" multipleinstance="0" usefillcolor="1" fillcolor="none" xmi.id="7a9CsoxuPrjM" height="24" drawasactor="0"/>
+         <combinedFragmentwidget linecolor="none" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="-1863.380249023438" showstereotype="1" y="166.5899306077224" font="Sans Serif,9,-1,0,50,0,0,0,0,0" CombinedFragmenttype="1" localid="F9VioQbsnr3Q" combinedFragmentname="" width="668.5996938852165" isinstance="0" usefillcolor="1" fillcolor="#ffff00" xmi.id="LYQCqbMYYLS0" documentation="" height="101.8743215707632"/>
         </widgets>
         <messages>
-         <messagewidget linecolor="none" usesdiagramfillcolor="1" widgetbid="SMx5lxJrWeJc" textid="sjyhWh7ntYzo" operation="GMzu698BzDeD" linewidth="none" seqnum="" textcolor="none" usesdiagramusefillcolor="1" x="-1800" showstereotype="1" y="128" widgetaid="kzn9RDuL0hzL" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="kxPu6GEwpplS" width="514" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="GMzu698BzDeD" height="20" sequencemessagetype="1000">
-          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-1795" showstereotype="1" y="110" text="init_plugin(plugin_name : string, plugin_version : float, out want_update : bool)" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="xq8os2CcxbU3" pretext="" role="704" width="498" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="sjyhWh7ntYzo" height="18"/>
+         <messagewidget linecolor="none" usesdiagramfillcolor="1" widgetbid="SMx5lxJrWeJc" textid="sjyhWh7ntYzo" operation="GMzu698BzDeD" linewidth="none" seqnum="" textcolor="none" usesdiagramusefillcolor="1" x="-1800" showstereotype="1" y="141.4285714285714" widgetaid="kzn9RDuL0hzL" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="kxPu6GEwpplS" width="578" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="GMzu698BzDeD" height="20" sequencemessagetype="1000">
+          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-1795" showstereotype="1" y="123" text="check_version(plugin_name : string, plugin_version : float, out want_update : bool)" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="xq8os2CcxbU3" pretext="" role="704" width="523" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="sjyhWh7ntYzo" height="18"/>
          </messagewidget>
-         <messagewidget linecolor="none" usesdiagramfillcolor="1" widgetbid="SMx5lxJrWeJc" textid="hXZkpdDOzyqv" operation="JH0qfcSQUP7I" linewidth="none" seqnum="" textcolor="none" usesdiagramusefillcolor="1" x="-1800" showstereotype="1" y="185.3943634033203" widgetaid="kzn9RDuL0hzL" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="FO9piJfi4H4T" width="514" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="JH0qfcSQUP7I" height="58" sequencemessagetype="1000">
-          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-1527" showstereotype="1" y="167" text="update_client(code_payload : blob)" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="krxjqrH5DOst" pretext="" role="704" width="228" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="hXZkpdDOzyqv" height="18"/>
+         <messagewidget linecolor="none" usesdiagramfillcolor="1" widgetbid="SMx5lxJrWeJc" textid="hXZkpdDOzyqv" operation="JH0qfcSQUP7I" linewidth="none" seqnum="" textcolor="none" usesdiagramusefillcolor="1" x="-1800" showstereotype="1" y="185" widgetaid="kzn9RDuL0hzL" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="FO9piJfi4H4T" width="578" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="JH0qfcSQUP7I" height="58" sequencemessagetype="1000">
+          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-1635" showstereotype="1" y="167" text="update_client(plugin_name : string, code_payload : blob)" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="krxjqrH5DOst" pretext="" role="704" width="363" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="hXZkpdDOzyqv" height="18"/>
          </messagewidget>
-         <messagewidget linecolor="none" usesdiagramfillcolor="1" widgetbid="SMx5lxJrWeJc" textid="E0DtERIsHYJw" operation="q8yfNBLCiZWb" linewidth="none" seqnum="" textcolor="none" usesdiagramusefillcolor="1" x="-1800" showstereotype="1" y="294.0563354492188" widgetaid="kzn9RDuL0hzL" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="mhPcKWnXfGGR" width="514" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="q8yfNBLCiZWb" height="159" sequencemessagetype="1000">
-          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-1465" showstereotype="1" y="276" text="get_data(out data : json)" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="qZEMsgLdOkFg" pretext="" role="704" width="166" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="E0DtERIsHYJw" height="18"/>
+         <messagewidget linecolor="none" usesdiagramfillcolor="1" widgetbid="SMx5lxJrWeJc" textid="E0DtERIsHYJw" operation="q8yfNBLCiZWb" linewidth="none" seqnum="" textcolor="none" usesdiagramusefillcolor="1" x="-1800" showstereotype="1" y="294.9615384615385" widgetaid="kzn9RDuL0hzL" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="mhPcKWnXfGGR" width="578" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="q8yfNBLCiZWb" height="159" sequencemessagetype="1000">
+          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="-1568" showstereotype="1" y="276" text="get_data(plugin_name : string, out data : dict)" font="Sans Serif,9,-1,0,50,0,0,0,0,0" localid="qZEMsgLdOkFg" pretext="" role="704" width="298" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="E0DtERIsHYJw" height="18"/>
          </messagewidget>
         </messages>
         <associations/>
@@ -104,7 +109,7 @@
   </UML:Model>
  </XMI.content>
  <XMI.extensions xmi.extender="umbrello">
-  <docsettings viewid="FijEEvBefQUR" uniqueid="V1dHx9luAhwz" documentation=""/>
+  <docsettings viewid="FijEEvBefQUR" uniqueid="aX9VidT9avUC" documentation=""/>
   <listview>
    <listitem open="1" type="800" id="Views">
     <listitem open="1" type="821" id="Component View"/>
@@ -114,8 +119,8 @@
      <listitem open="1" type="813" id="EMLPkDISlsCY"/>
      <listitem open="0" type="807" id="6oWGcbx6TMaL" label="class diagram"/>
      <listitem open="1" type="813" id="7a9CsoxuPrjM">
-      <listitem open="0" type="815" id="q8yfNBLCiZWb"/>
       <listitem open="0" type="815" id="GMzu698BzDeD"/>
+      <listitem open="0" type="815" id="q8yfNBLCiZWb"/>
       <listitem open="0" type="815" id="JH0qfcSQUP7I"/>
      </listitem>
      <listitem open="0" type="830" id="Datatypes">
@@ -131,6 +136,7 @@
       <listitem open="1" type="829" id="SlHqmLSN5lad"/>
       <listitem open="1" type="829" id="Qe9CAkgH0WEx"/>
      </listitem>
+     <listitem open="1" type="813" id="TzSLbgQPV2zQ"/>
      <listitem open="1" type="813" id="AKPZgJcdh32a"/>
      <listitem open="1" type="813" id="gQ19RTN9DZL8">
       <listitem open="0" type="815" id="el1dvrwdddfP"/>

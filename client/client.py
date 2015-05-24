@@ -1,7 +1,6 @@
 import json
 import remote_methods
 from ssh_server import SSHServer
-from fsm import InvalidStateException
 
 # This method is called whenever a message is received down the SSH
 # connection.  It will decode the JSON and execute the specified method
@@ -20,9 +19,6 @@ def server_message_received(srv, msg):
             method = getattr(remote_methods, request['method'])
             result = method(**request['arguments'])
             error = False
-        except InvalidStateException:
-            result = "invalid_state"
-            error = True
         except remote_methods.PluginNotFoundException:
             result = "plugin_not_found"
             error = True
