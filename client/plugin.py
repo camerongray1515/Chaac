@@ -1,7 +1,7 @@
 from enum import Enum
 from abc import ABCMeta, abstractmethod
 
-class Module(metaclass=ABCMeta):
+class Plugin(metaclass=ABCMeta):
     @abstractmethod
     def get_result(self):
         pass
@@ -15,7 +15,7 @@ class ResultLevel(Enum):
     unknown = -1
 
 
-class ModuleResult(object):
+class PluginResult(object):
     def __init__(self, result_level, message="", value=0):
         self._result_level = result_level
         self._message = message
@@ -43,7 +43,7 @@ class ModuleResult(object):
         self._value = value
 
     def __repr__(self):
-        return "<ModuleResult level: {0}, message: '{1}', value: {2}>".format(self.result_level, self.message, self.value)
+        return "<PluginResult level: {0}, message: '{1}', value: {2}>".format(self.result_level, self.message, self.value)
     
     
     

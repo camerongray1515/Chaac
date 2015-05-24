@@ -7,7 +7,7 @@ class States(Enum):
     ready = 0
     out_of_date = 1
     up_to_date = 2
-    module_loaded = 3
+    plugin_loaded = 3
 
 
 class FSM(object):

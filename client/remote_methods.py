@@ -5,36 +5,36 @@ from fsm import FSM, States
 fsm = FSM()
 
 # The methods specified here can be called by the server
-permitted_methods = ["init_module", "update_client", "get_data"]
+permitted_methods = ["init_plugin", "update_client", "get_data"]
 
-currently_loaded_module = None
+currently_loaded_plugin = None
 
-class ModuleNotFoundException(Exception):
+class PluginNotFoundException(Exception):
     pass
 
-def init_module(module_name, module_version):
-    global currently_loaded_module
+def init_plugin(plugin_name, plugin_version):
+    global currently_loaded_plugin
 
     fsm.enforce_state(States.ready)
 
-    # Read in the module's information file and decode the JSON
-    safe_module_name = module_name.strip('/').strip('\\')
+    # Read in the plugin's information file and decode the JSON
+    safe_plugin_name = plugin_name.strip('/').strip('\\')
     try:
-        with open("modules/{0}/info.json".format(safe_module_name), 'r') as f:
-            module_info = json.load(f)
+        with open("plugins/{0}/info.json".format(safe_plugin_name), 'r') as f:
+            plugin_info = json.load(f)
     except FileNotFoundError:
-        raise ModuleNotFoundException
+        raise PluginNotFoundException
 
-    # Now import the module and instantiate its main class
-    module = import_module("modules.{0}".format(module_info["module_name"]))
+    # Now import the plugin and instantiate its main class
+    plugin = import_module("plugins.{0}".format(plugin_info["plugin_name"]))
     try:
-        MainClass = getattr(module, module_info["classname"])
+        MainClass = getattr(plugin, plugin_info["classname"])
     except AttributeError:
-        raise ModuleNotFoundException
+        raise PluginNotFoundException
 
-    currently_loaded_module = MainClass()
+    currently_loaded_plugin = MainClass()
 
-    # TODO: Check module version and transition to appropriate state, also return appropraite result
+    # TODO: Check plugin version and transition to appropriate state, also return appropraite result
     fsm.transition_to_state(States.out_of_date)
 
 def update_client(payload):
@@ -42,12 +42,12 @@ def update_client(payload):
 
     fsm.transition_to_state(States.up_to_date)
 
-def load_module():
+def load_plugin():
     fsm.enforce_state(States.up_to_date)
 
-    fsm.transition_to_state(States.module_loaded)
+    fsm.transition_to_state(States.plugin_loaded)
 
 def get_data():
-    fsm.enforce_state(States.module_loaded)
+    fsm.enforce_state(States.plugin_loaded)
 
     fsm.transition_to_state(States.ready)
