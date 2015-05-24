@@ -19,6 +19,9 @@ def server_message_received(srv, msg):
         except InvalidStateException:
             result = "invalid_state"
             error = True
+        except remote_methods.ModuleNotFoundException:
+            result = "module_not_found"
+            error = True
     else:
         result = "invalid_method"
         error = True
