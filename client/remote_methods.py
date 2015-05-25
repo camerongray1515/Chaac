@@ -7,6 +7,9 @@ permitted_methods = ["check_version", "update_client", "get_data"]
 class PluginNotFoundException(Exception):
     pass
 
+# Given the name and latest version (that the monitoring server has) of a plugin
+# this function will return whether the client wants to be updated with the latest
+# version of the plugin or not
 def check_version(plugin_name, plugin_version):
     plugin_info = get_plugin_info(plugin_name)
 
@@ -31,7 +34,8 @@ def get_plugin_info(plugin_name):
 # Called remotely - Receives the plugin as a binary payload, unpacks it and stores it
 # on disk, replacing any plugins that already exist.
 def update_client(plugin_name, payload):
-    pass
+    raise NotImplementedError
+
 
 # Called remotely - Loads and instantiates the plugin and then calls the
 # get_result() method of the instance. Then returns this data which will
