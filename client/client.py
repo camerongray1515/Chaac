@@ -35,6 +35,6 @@ if __name__ == "__main__":
     # Create an instance of the SSH server, set the callback method that
     # will be executed whenever a message is receieved down the connection
     # and then start the SSH server running
-    server = SSHServer()
+    server = SSHServer(2200)
     server.message_received_callback = server_message_received
     server.start()

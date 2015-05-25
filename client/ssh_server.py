@@ -32,6 +32,11 @@ class ParamikoServer(paramiko.ServerInterface):
 # configurable options such as port numbers, addresses, buffer
 # sizes.etc
 class SSHServer():
+    def __init__(self, port, buffer_size=1024, backlog=100):
+        self._port = port
+        self._buffer_size = buffer_size
+        self._backlog = backlog
+
     # This callback function is called whenever a message is
     # receieved down the SSH connection
     @property
@@ -50,13 +55,13 @@ class SSHServer():
         try:
             self._sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            self._sock.bind(('', 2200)) # TODO: Don't have hardcoded port
+            self._sock.bind(('', self._port))
         except Exception as ex:
             print("*** Error binding port: {0}".format(str(ex)))
             sys.exit(1) # TODO: Don't have this exit
 
         try:
-            self._sock.listen(100) # TODO: Make backlog configurable
+            self._sock.listen(self._backlog)
             print("Awaiting connection...")
             client, addr = self._sock.accept()
         except Exception as ex:
@@ -96,7 +101,7 @@ class SSHServer():
 
             recv_buffer = ""
             while (True):
-                recv_buffer += self._channel.recv(1024).decode('utf8')
+                recv_buffer += self._channel.recv(self._buffer_size).decode('utf8')
                 # If the received buffer is empty, then the remote system has disconnected.
                 # Restart the SSH server awaiting another client to connect
                 if recv_buffer == "":
