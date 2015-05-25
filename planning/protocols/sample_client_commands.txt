@@ -1,0 +1,3 @@
+{"method": "check_version","arguments": {"plugin_name": "test_plugin", "plugin_version": 1.0}}
+{"method": "update_client","arguments": {"plugin_name": "test_plugin", "payload": "foobar"}}
+{"method": "get_data","arguments": {"plugin_name": "test_plugin"}}
