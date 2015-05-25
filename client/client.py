@@ -8,12 +8,6 @@ from ssh_server import SSHServer
 # connection encoded as JSON. The "srv" argument is an instance of the
 # SSHServer class and can be used to send data back up the connection
 def server_message_received(srv, msg):
-    # If the message received is empty then the remote host has disconnected
-    # Therefore restart the SSH Server ready for another connection
-    if msg == '':
-        srv.restart()
-        return
-
     request = json.loads(msg)
 
     # Check that the method requested is allowed to be called remotely

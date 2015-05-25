@@ -94,9 +94,21 @@ class SSHServer():
                 print("*** Connected system never asked for a shell")
                 raise
 
+            recv_buffer = ""
             while (True):
-                recv_bytes = self._channel.recv(1024)
-                self.message_received_callback(self, recv_bytes.decode('utf8'))
+                recv_buffer += self._channel.recv(1024).decode('utf8')
+                # If the received buffer is empty, then the remote system has disconnected.
+                # Restart the SSH server awaiting another client to connect
+                if recv_buffer == "":
+                    self.restart()
+                    return
+
+                # If this is the end of the message (buffer has a newline at the end)
+                # pass the full buffer to the callback method and then clear the buffer
+                # out awaiting the next message
+                if recv_buffer[-1] == "\n":
+                    self.message_received_callback(self, recv_buffer)
+                    recv_buffer = ""
 
         # TODO: This is too broad
         except Exception as ex:
