@@ -66,25 +66,25 @@ class SSHServer():
         print("Connected!")
 
         try:
-            transport = paramiko.Transport(client)
+            self.transport = paramiko.Transport(client)
 
             try:
-                transport.load_server_moduli()
+                self.transport.load_server_moduli()
             except:
                 print("*** Cannot load moduli")
                 raise
 
             # TODO: Make this key file configurable
-            transport.add_server_key(paramiko.RSAKey(filename='keys/server_rsa.key'))
+            self.transport.add_server_key(paramiko.RSAKey(filename='keys/server_rsa.key'))
             server = ParamikoServer()
 
             try:
-                transport.start_server(server=server)
+                self.transport.start_server(server=server)
             except Exception as ex:
                 print("*** SSH negotiation failed: {0}".format(str(ex)))
                 raise
 
-            self._channel = transport.accept(30)
+            self._channel = self.transport.accept(30)
             if self._channel == None:
                 print("*** No channel")
                 raise
@@ -103,11 +103,12 @@ class SSHServer():
             # If we hit an exception, close everything and restart the server
             print("Caught Exception: {0}".format(str(ex)))
             print(traceback.format_exc())
+            self.restart()
 
-
-            try:
-                transport.close()
-                self._sock.close()
-            except:
-                pass
-            self.start()
+    def restart(self):
+        try:
+            self.transport.close()
+            self._sock.close()
+        except:
+            pass
+        self.start()
