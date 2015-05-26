@@ -3,16 +3,37 @@ import threading
 import socket
 import sys
 import traceback
+import re
 
 class ParamikoServer(paramiko.ServerInterface):
     def __init__(self):
         self._event = threading.Event()
 
-    # Tempoary testing auth - use keys in production
-    def check_auth_password(self, username, password):
-        if username=="foo" and password=="bar":
-            return paramiko.AUTH_SUCCESSFUL
-        return paramiko.AUTH_FAILED
+    def check_auth_publickey(self, username, key):
+        # We need to loop through all authorized keys and if any match we allow
+        # the connection, otherwise we do not allow it.
+        with open('ssh/authorized_keys', 'r') as keyfile:
+            for entry in keyfile:
+                # Extract the key portion from the rest of the line
+                match = re.match(r"^.* ([^ ]*) .*$", entry)
+                if match == None:
+                    print("*** Invalid key format found in authorized_keys, ignoring!")
+                    continue
+
+                authorized_key = paramiko.RSAKey(data=paramiko.py3compat.decodebytes(
+                                                        match.group(1).encode('UTF-8')))
+
+                # Allow connection if the keys match
+                if key == authorized_key:
+                    return paramiko.AUTH_SUCCESSFUL
+
+            return paramiko.AUTH_FAILED
+
+
+        return paramiko.AUTH_SUCCESSFUL
+
+    def get_allowed_auths(self, username):
+        return 'publickey'
 
     def check_channel_request(self, kind, chanid):
         if kind == 'session':
