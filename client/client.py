@@ -1,5 +1,6 @@
 import json
 import remote_methods
+import configparser
 from ssh_server import SSHServer
 
 # This method is called whenever a message is received down the SSH
@@ -32,9 +33,20 @@ def server_message_received(srv, msg):
     srv.send(response)
 
 if __name__ == "__main__":
+    # Load in the configuration file
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+
     # Create an instance of the SSH server, set the callback method that
     # will be executed whenever a message is receieved down the connection
     # and then start the SSH server running
-    server = SSHServer(2200)
+    ssh_server_config = config['SSH Server']
+
+    server = SSHServer( port=int(config['SSH Server']['Port']),
+                        buffer_size=int(config['SSH Server']['SocketBacklog']),
+                        backlog=int(config['SSH Server']['ReceiveBufferSize']),
+                        keys_directory=config['Keys']['KeysDirectory'],
+                        host_key_file=config['Keys']['HostKeyFile'],
+                        authorized_keys_file=config['Keys']['AuthorizedKeysFile'])
     server.message_received_callback = server_message_received
     server.start()

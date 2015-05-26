@@ -1,0 +1,9 @@
+[SSH Server]
+Port = 2200
+SocketBacklog = 10
+ReceiveBufferSize = 1024
+
+[Keys]
+KeysDirectory = ssh
+HostKeyFile = server_rsa.key
+AuthorizedKeysFile = authorized_keys

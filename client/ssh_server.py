@@ -4,15 +4,18 @@ import socket
 import sys
 import traceback
 import re
+import os
 
 class ParamikoServer(paramiko.ServerInterface):
-    def __init__(self):
+    def __init__(self, keys_directory, authorized_keys_file):
         self._event = threading.Event()
+        self._keys_directory = keys_directory
+        self._authorized_keys_file = authorized_keys_file
 
     def check_auth_publickey(self, username, key):
         # We need to loop through all authorized keys and if any match we allow
         # the connection, otherwise we do not allow it.
-        with open('ssh/authorized_keys', 'r') as keyfile:
+        with open(os.path.join(self._keys_directory, self._authorized_keys_file), 'r') as keyfile:
             for entry in keyfile:
                 # Extract the key portion from the rest of the line
                 match = re.match(r"^.* ([^ ]*) .*$", entry)
@@ -27,6 +30,7 @@ class ParamikoServer(paramiko.ServerInterface):
                 if key == authorized_key:
                     return paramiko.AUTH_SUCCESSFUL
 
+            print("*** Client authentication failed")
             return paramiko.AUTH_FAILED
 
 
@@ -53,10 +57,13 @@ class ParamikoServer(paramiko.ServerInterface):
 # configurable options such as port numbers, addresses, buffer
 # sizes.etc
 class SSHServer():
-    def __init__(self, port, buffer_size=1024, backlog=100):
+    def __init__(self, port, keys_directory, host_key_file, authorized_keys_file, buffer_size=1024, backlog=100):
         self._port = port
         self._buffer_size = buffer_size
         self._backlog = backlog
+        self._keys_directory = keys_directory
+        self._host_key_file = host_key_file
+        self._authorized_keys_file = authorized_keys_file
 
     # This callback function is called whenever a message is
     # receieved down the SSH connection
@@ -86,7 +93,7 @@ class SSHServer():
             print("Awaiting connection...")
             client, addr = self._sock.accept()
         except Exception as ex:
-            print("*** Failed to listen: {0}".format(set(ex)))
+            print("*** Failed to listen: {0}".format(str(ex)))
             raise
 
         print("Connected!")
@@ -101,8 +108,9 @@ class SSHServer():
                 raise
 
             # TODO: Make this key file configurable
-            self.transport.add_server_key(paramiko.RSAKey(filename='keys/server_rsa.key'))
-            server = ParamikoServer()
+            self.transport.add_server_key(paramiko.RSAKey(filename=os.path.join(self._keys_directory, self._host_key_file)))
+            server = ParamikoServer(keys_directory=self._keys_directory,
+                                    authorized_keys_file=self._authorized_keys_file)
 
             try:
                 self.transport.start_server(server=server)
@@ -112,8 +120,8 @@ class SSHServer():
 
             self._channel = self.transport.accept(30)
             if self._channel == None:
-                print("*** No channel")
-                raise
+                print("*** No channel - End system possibly failed authentication")
+                self.restart()
 
             server.event.wait(30)
             if not server.event.is_set():
