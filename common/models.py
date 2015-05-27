@@ -111,9 +111,9 @@ class GroupAssignment(Base):
     member_client_id = Column(Integer, ForeignKey(Client.id))
     member_client = relationship("Client")
     member_group_id = Column(Integer, ForeignKey(ClientGroup.id))
-    member_group = relationship("ClientGroup")
+    member_group = relationship("ClientGroup", foreign_keys=[member_group_id])
     client_group_id = Column(Integer, ForeignKey(ClientGroup.id))
-    client_group = relationship("ClientGroup")
+    client_group = relationship("ClientGroup", foreign_keys=[client_group_id])
 
     def __init__(self, member_client_id, member_group_id, plugin_id):
         self.member_client_id = member_client_id
