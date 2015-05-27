@@ -58,3 +58,5 @@ target/
 
 client/keys/*.key
 config.ini
+
+db.sqlite
