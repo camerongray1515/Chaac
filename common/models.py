@@ -157,7 +157,3 @@ class GroupAssignment(Base):
                                     self.id, self.member_client_id, self.member_group_id, self.client_group_id)
 
 Base.metadata.create_all(engine)
-
-if __name__ == "__main__":
-    group = ClientGroup.query.get(5)
-    print(ClientGroup.get_members(group))
