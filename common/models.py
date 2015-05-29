@@ -2,6 +2,7 @@ import datetime
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Text, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
+from exceptions import GroupNotFoundException
 
 # TODO: Store the database connection string in a config file
 engine = create_engine("sqlite:///db.sqlite")
@@ -47,6 +48,9 @@ class ClientGroup(Base):
 
     @staticmethod
     def get_members(client_group, visited_group_ids=[]):
+        if (client_group == None):
+            raise GroupNotFoundException
+
         member_clients = []
         memberships = GroupAssignment.query.filter(GroupAssignment.client_group_id==client_group.id)
         for member in memberships:
@@ -153,3 +157,7 @@ class GroupAssignment(Base):
                                     self.id, self.member_client_id, self.member_group_id, self.client_group_id)
 
 Base.metadata.create_all(engine)
+
+if __name__ == "__main__":
+    group = ClientGroup.query.get(5)
+    print(ClientGroup.get_members(group))
