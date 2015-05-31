@@ -2,7 +2,7 @@ import paramiko
 import socket
 import json
 
-from exceptions import NoConnectionError, RemoteCommandFailedError
+from common.exceptions import NoConnectionError, RemoteCommandFailedError
 
 class RemoteClient(object):
     def __init__(self, hostname, port, username, key_path):
