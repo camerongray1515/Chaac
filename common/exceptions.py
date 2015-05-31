@@ -3,3 +3,6 @@ class GroupNotFoundException(Exception):
 
 class NoConnectionError(Exception):
     pass
+
+class RemoteCommandFailedError(Exception):
+    pass

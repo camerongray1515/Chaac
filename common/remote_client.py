@@ -2,7 +2,7 @@ import paramiko
 import socket
 import json
 
-from exceptions import NoConnectionError
+from exceptions import NoConnectionError, RemoteCommandFailedError
 
 class RemoteClient(object):
     def __init__(self, hostname, port, username, key_path):
@@ -26,7 +26,7 @@ class RemoteClient(object):
 
         print("Connected to client!")
 
-    def execute_command(self, method, arguments_dict):
+    def _execute_command(self, method, arguments_dict):
         # Build up a dictionary to hold the command, dump it as json, append a newline to
         # the JSON string (to signify the end of a comamnd to the remote system) and then
         # send it down the SSH connection
@@ -50,8 +50,17 @@ class RemoteClient(object):
             if recieve_buffer.endswith(b"\n"):
                 end_of_transmission = True
 
-        return json.loads(recieve_buffer.decode("UTF-8"))
+        response = json.loads(recieve_buffer.decode("UTF-8"))
+        if response["error"]:
+            raise RemoteCommmandFailedError
+        else:
+            return response["result"]
 
+    def check_version(self, plugin_name, plugin_version):
+        arguments_dict = {  "plugin_name": plugin_name,
+                            "plugin_version": plugin_version}
+
+        return self._execute_command("check_version", arguments_dict)
 
     def close(self):
         print("Closing SSH connection to client...")
@@ -68,4 +77,4 @@ class RemoteClient(object):
 
 if __name__ == "__main__":
     with RemoteClient("127.0.0.1", 2200, "foo", "../client/keys/id_rsa.key") as client:
-        print(client.execute_command("check_version", {"plugin_name": "test_plugin", "plugin_version": 1.0}))
+        print(client.check_version("test_plugin", 1.0))

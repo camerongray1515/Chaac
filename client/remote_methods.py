@@ -11,7 +11,12 @@ class PluginNotFoundException(Exception):
 # this function will return whether the client wants to be updated with the latest
 # version of the plugin or not
 def check_version(plugin_name, plugin_version):
-    plugin_info = get_plugin_info(plugin_name)
+    try:
+        plugin_info = get_plugin_info(plugin_name)
+    except PluginNotFoundException:
+        # If the plugin is not found, say we want an update to request the plugin to
+        # be installed onto this client
+        return {"want_update": True}
 
     # Do we want to update the plugin or not?
     if plugin_version > plugin_info['version']:
