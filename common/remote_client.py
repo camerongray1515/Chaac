@@ -62,6 +62,17 @@ class RemoteClient(object):
 
         return self._execute_command("check_version", arguments_dict)
 
+    def update_client(self, plugin_name, payload):
+        arguments_dict = {  "plugin_name": plugin_name,
+                            "payload": payload}
+
+        return self._execute_command("update_client", arguments_dict)
+
+    def get_data(self, plugin_name):
+        arguments_dict = {"plugin_name": plugin_name}
+
+        return self._execute_command("get_data", arguments_dict)
+
     def close(self):
         print("Closing SSH connection to client...")
         self._channel.close()
@@ -77,4 +88,4 @@ class RemoteClient(object):
 
 if __name__ == "__main__":
     with RemoteClient("127.0.0.1", 2200, "foo", "../client/keys/id_rsa.key") as client:
-        print(client.check_version("test_plugin", 1.0))
+        print(client.get_data("test_plugin"))
