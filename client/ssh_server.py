@@ -76,7 +76,7 @@ class SSHServer():
     
     # This sends a message back to the connected client
     def send(self, msg):
-        self._channel.send(msg)
+        self._channel.send(msg + "\n")
 
     # TODO: This should probably be split up more
     def start(self):
@@ -123,10 +123,10 @@ class SSHServer():
                 print("*** No channel - End system possibly failed authentication")
                 self.restart()
 
-            server.event.wait(30)
-            if not server.event.is_set():
-                print("*** Connected system never asked for a shell")
-                raise
+            # server.event.wait(30)
+            # if not server.event.is_set():
+            #     print("*** Connected system never asked for a shell")
+            #     raise
 
             recv_buffer = ""
             while (True):
