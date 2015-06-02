@@ -30,6 +30,3 @@ def encode_plugin(plugin_name):
 
     # Return a base64 encoded representation of the byte array
     return base64.b64encode(byte_array)
-
-if __name__ == "__main__":
-    print(encode_plugin("test_plugin"))
