@@ -1,2 +1,2 @@
-class InvalidPluginException(Exception):
+class InvalidPluginError(Exception):
     pass

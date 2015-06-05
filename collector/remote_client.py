@@ -3,6 +3,7 @@ import socket
 import json
 
 from common.exceptions import NoConnectionError, RemoteCommandFailedError
+from packaging import encode_plugin
 
 class RemoteClient(object):
     def __init__(self, hostname, port, username, key_path):
@@ -64,7 +65,7 @@ class RemoteClient(object):
 
     def update_client(self, plugin_name, payload):
         arguments_dict = {  "plugin_name": plugin_name,
-                            "payload": payload}
+                            "payload": payload.decode("UTF-8")}
 
         return self._execute_command("update_client", arguments_dict)
 
@@ -88,4 +89,4 @@ class RemoteClient(object):
 
 if __name__ == "__main__":
     with RemoteClient("127.0.0.1", 2200, "foo", "../client/keys/id_rsa.key") as client:
-        print(client.get_data("test_plugin"))
+        print(client.update_client("test_plugin", encode_plugin("test_plugin")))

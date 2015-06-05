@@ -4,7 +4,7 @@ import os
 import io
 import shutil
 
-from exceptions import InvalidPluginException
+from exceptions import InvalidPluginError
 
 # This method takes in a base64 encoded string (that is received from the server)
 # decodes it and then decompresses and extracts the resulting tar.gz archive to
@@ -26,15 +26,15 @@ def unpack_plugin(plugin_name, base64_encoded_plugin):
     archive_directory_name = os.path.commonprefix(plugin_files).replace("/", "")
 
     if archive_directory_name.strip() == "":
-        raise InvalidPluginException
+        raise InvalidPluginError
     
     if plugin_name != archive_directory_name:
-        raise InvalidPluginException
+        raise InvalidPluginError
 
     # Plugin must always contain a info.json file and an __init__.py file
     if (archive_directory_name+"/info.json" not in plugin_files 
         or archive_directory_name+"/__init__.py" not in plugin_files):
-        raise InvalidPluginException
+        raise InvalidPluginError
 
     # We are now happy to install the plugin so delete the plugin from disk if it
     # already exists.  We don't care if we can't find the directory, it just means

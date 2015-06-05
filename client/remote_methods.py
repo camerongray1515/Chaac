@@ -1,6 +1,7 @@
 import json
 from importlib import import_module
 from plugin_installation import unpack_plugin
+from exceptions import InvalidPluginError
 
 # The methods specified here can be called by the server
 permitted_methods = ["check_version", "update_client", "get_data"]
@@ -40,7 +41,14 @@ def get_plugin_info(plugin_name):
 # Called remotely - Receives the plugin as a binary payload, unpacks it and stores it
 # on disk, replacing any plugins that already exist.
 def update_client(plugin_name, payload):
-    raise NotImplementedError
+    result = {"success": True}
+    
+    try:
+        unpack_plugin(plugin_name, payload.encode("UTF-8"))
+    except InvalidPluginError:
+        result["success"] = False
+
+    return result
 
 
 # Called remotely - Loads and instantiates the plugin and then calls the
