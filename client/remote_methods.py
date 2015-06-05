@@ -1,5 +1,6 @@
 import json
 from importlib import import_module
+from plugin_installation import unpack_plugin
 
 # The methods specified here can be called by the server
 permitted_methods = ["check_version", "update_client", "get_data"]
