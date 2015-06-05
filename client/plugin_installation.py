@@ -46,7 +46,3 @@ def unpack_plugin(plugin_name, base64_encoded_plugin):
 
     # Finally extract the archive to the plugins directory therefore installing it
     tar.extractall(path="plugins")    
-
-if __name__ == "__main__":
-    unpack_plugin("test_plugin", "H4sIAOn4cVUC/+3UQUvDMBgG4J77K0JPG5SaZOsKg109eRDxHupMS7VNRpIORPzvZs2mVREvs6C8zyU0SRuSfm+ctE7s2r5u1IUQjWqcENnuKTon6q2Wy0PLipwOzyw8B4siYjxf8ILygvOIslVOaURoNIHeutIQEm3LThqt6u/nSWN/2KT31v4RldEdySqt7/wpNN1OG0dufU1cDyURR/C/uVH+QxWcO/0/55+v8s/552yJ/E+W//D/T/EP0U/JjbR9667kXrbpsTN0xfG2La0d3ROz0MzXMfHuZUVq6YQZZs+sbKvjyIGRrjfqwwdnYaZoD2ttRutm+jElnbS2rOUmuRzqM5njVvqd/Deq0tmD1Wri/LMF/ZJ/WiD/U3gecpmEChDKH0KyJsmoKpI0zNj77Tda+VGW0WPfcA2c3nm/DZL4BREFAAAAAAAAAAAAAAAAAJjYK/pnt6gAKAAA")
-    # unpack_plugin("test_plugin", "H4sIALz7cVUC/+3UQWuDMBgGYM/+iuCpBXFJWhUKve60wxi7i2ujuGlSklgYY/99qWk3tzF6WYWN97kEYzREv/ezwthi1/Z1I6+2ye45uADqZMvlYWR5Sodr5q+9RR4wni54TnnOeUBZyrJlQGgwgd7YUhMSbMpOaCXrn9cJbc4c0nkf/4hKq44klVIP7is03U5pS+5dTdwOJREG8L/ZUf59Ffx+EziXf56lX/KfcYb8T5d///9P8ffRj8mdMH1rb8RetPFx0k+F4aYtjRn1iZkf5quQOFtRkVrYQg+rZ0a01fHOgRa21/LTC2d+ZdEe9lqP9k3UU0w6YUxZi3V0PdRnNEdXukz+G1mp5NEoOXH+2YJ+yz/Nkf8pvAy5jHwFFNJ9hGhFolFVRLFfsXfHb5R0d1lCj3NDGzg989ENovAVEQUAAAAAAAAAAAAAAAAAmNgbcynDVwAoAAA=")
