@@ -1,4 +1,4 @@
-/* Source: http://bootsnipp.com/TerryTel93/snippets/djjrN */
+/* Based on Source: http://bootsnipp.com/TerryTel93/snippets/djjrN */
 body,html{
     height: 100%;
 }
@@ -90,7 +90,7 @@ nav.sidebar, .main{
 
     /*colors dropdown box text */
     .navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
-        color: #777;
+        color: white;
     }
 
     /*gives sidebar width/height*/
@@ -119,7 +119,7 @@ nav.sidebar, .main{
 }
 
 nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus {
-    color: #CCC;
+    color: #2c3e50;
     background-color: transparent;
 }
 
