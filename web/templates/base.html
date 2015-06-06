@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chaac - {% block page_title %}Server Monitoring{% endblock %}</title>
+    <title>Chaac - {% block title %}Server Monitoring{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
@@ -13,6 +13,11 @@
     {% block additional_stylesheets %}{% endblock %}
 </head>
 <body>
+    <nav class="navbar navbar-inverse topnav">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Chaac - {{ self.title() }}</a>
+        </div>
+    </nav>
     {% include "snippets/navbar.html" %}
 
     <div class="container container-main">
