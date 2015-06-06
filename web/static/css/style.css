@@ -1,0 +1,12 @@
+/* Section: Top navigation bar */
+nav.topnav {
+    border-radius: 0px; /* Remove rounded corners */
+    margin-bottom: 0px; /* Push right up against the sidebar */
+    min-height: 40px; /* Make the whole bar thinner */
+}
+
+nav.topnav .navbar-brand {
+    /* Adjust the height to cope with the thinner bar */
+    line-height: 0px;
+    height: 40px;
+}

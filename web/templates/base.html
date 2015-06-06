@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Other library CSS -->
+    <link href="{{ url_for('static', filename='css/responsive-sidebar-menu.css') }}" rel="stylesheet">
+    <!-- Application Specific CSS Overrides -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    {% block additional_stylesheets %}{% endblock %}
+</head>
+<body>
+    {% include "snippets/navbar.html" %}
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+    <!-- Boostrap Javascript Includes -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+</html>
