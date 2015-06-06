@@ -10,3 +10,20 @@ nav.topnav .navbar-brand {
     line-height: 0px;
     height: 40px;
 }
+
+/* Section: Styling the body */
+body {
+    background-color: silver;
+}
+
+div.container-main {
+    padding-left: 55px;
+    padding-top: 20px;
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+}
+
+div.panel {
+    border-radius: 0px; /* Do not have rounded corners on panels */
+}
