@@ -20,8 +20,10 @@
     </nav>
     {% include "snippets/navbar.html" %}
 
-    <div class="container container-main">
-        {% block container %}{% endblock %}
+    <div class="scrollview">
+        <div class="container container-main">
+            {% block container %}{% endblock %}
+        </div>
     </div>
 
     <!-- JQuery -->

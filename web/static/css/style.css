@@ -17,8 +17,7 @@ body {
 }
 
 div.container-main {
-    padding-left: 55px;
-    padding-top: 20px;
+    padding: 20px;
     width: 100%;
     z-index: -1;
     position: absolute;
@@ -26,4 +25,10 @@ div.container-main {
 
 div.panel {
     border-radius: 0px; /* Do not have rounded corners on panels */
+}
+
+div.scrollview {
+    position: relative;
+    overflow-y: auto;
+    height: calc(100% - 40px); /* 100% height minus the 40px header bar */
 }

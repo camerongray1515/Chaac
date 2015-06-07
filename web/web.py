@@ -7,5 +7,9 @@ app.secret_key = 'changemetemp7qWYsGtL5fDHFMhG'
 def index():
     return render_template("home.html")
 
+@app.route("/clients/")
+def clients():
+	return render_template("clients.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
