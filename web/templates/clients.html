@@ -12,7 +12,38 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Add New Client</div>
                 <div class="panel-body">
-                    
+                    <form id="form-add-client" class="form-horizontal" method="POST">
+                        <div class="form-group">
+                            <label class="col-md-2">Name</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" id="client-name" placeholder="e.g. Webserver 1">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2">Description</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="client-description" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2">IP Address</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" id="client-ip" placeholder="e.g. 10.1.1.99">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2">Port</label>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" id="client-port" placeholder="e.g. 2200">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-2">
+                                <button class="btn btn-primary">Add Client</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
