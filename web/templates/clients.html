@@ -18,7 +18,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Existing Clients</div>
                 <div class="panel-body">
-                    <table class="table table-hover">
+                    <p><span class="fa fa-refresh fa-spin"></span> Loading Clients...</p>
+                    <table class="table table-hover hidden" id="table-clients">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -27,64 +28,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                            <tr><td>Foo</td><td>Foo</td><td>Foo</td><td>Foo</td></tr>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
             </div>
