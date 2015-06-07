@@ -2,7 +2,7 @@ import datetime
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Text, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
-from exceptions import GroupNotFoundException
+from common.exceptions import GroupNotFoundException
 
 # TODO: Store the database connection string in a config file
 engine = create_engine("sqlite:///db.sqlite")
