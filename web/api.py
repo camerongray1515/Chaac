@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from common.models import session, Client
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -20,3 +20,26 @@ def get_clients():
         client_list.append(client_dict)
 
     return jsonify(clients=client_list)
+
+@api.route("/add_client/", methods=["POST"])
+def add_client():
+    c = Client( name=request.form.get("client-name").strip(),
+                description=request.form.get("client-description").strip(),
+                ip_address=request.form.get("client-ip").strip(),
+                port=request.form.get("client-port").strip())
+
+    response = {"success": True, "message": "Client was added successfully"}
+    # Now validate the client before adding it to the database
+
+    # Check required fields are filled in
+    if not (c.name and c.ip_address and c.port):
+        response = {"success": False, "message": "Name, IP Address and Port are required"}
+    elif not c.port.isnumeric(): # Check that the port is numeric
+        response = {"success": False, "message": "Port must be a number"}
+
+    # Finally add the client to the database if all checks passed
+    if response["success"]:
+        session.add(c)
+        session.commit()
+
+    return jsonify(response)
