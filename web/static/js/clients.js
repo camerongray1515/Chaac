@@ -8,9 +8,10 @@ var clients = {
                 "clients": response["clients"]
             };
 
-            var source = $("#template-client").html();
-            var template = Handlebars.compile(source);
-            var html = template(context);
+            if (ui.compiledTemplates["template-client"] == undefined) {
+                ui.compileTemplate("template-client");
+            }
+            var html = ui.compiledTemplates["template-client"](context)
 
             $("#table-clients > tbody").append(html);
 
