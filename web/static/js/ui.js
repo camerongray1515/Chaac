@@ -5,14 +5,18 @@ var ui = {
         var prefix = (success) ? "Success!" : "Error!";
 
         // Compile the template for the alert if it has not already been compiled
-        if (ui.alertTemplate == undefined) {
-            var source = $("#" + templateId).html();
-            ui.alertTemplate = Handlebars.compile(source);
+        if (ui.compiledTemplates[templateId] == undefined) {
+            ui.compileTemplate(templateId);
         }
-        var html = ui.alertTemplate({"alert_level": alertLevel, "prefix": prefix, "message": message})
+        var html = ui.compiledTemplates[templateId]({"alert_level": alertLevel, "prefix": prefix, "message": message})
 
         $("#" + alertContainerId).hide();
         $("#" + alertContainerId).html(html);
         $("#" + alertContainerId).fadeIn();
+    },
+    compiledTemplates: {},
+    compileTemplate: function(templateId) {
+        var source = $("#" + templateId).html();
+        ui.compiledTemplates[templateId] = Handlebars.compile(source);
     }
 }
