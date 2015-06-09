@@ -70,19 +70,19 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
+                        <script id="template-client" type="text/x-handlebars-template">
+                            {% raw %}
+                                {{#each clients}}
+                                    <tr>
+                                        <td>{{ name }}</td>
+                                        <td>{{ ip_address }}</td>
+                                        <td>{{ port }}</td>
+                                        <td></td>
+                                    </tr>
+                                {{/each}}
+                            {% endraw %}
+                        </script>
                         <tbody>
-                            <script id="template-client" type="text/x-handlebars-template">
-                                {% raw %}
-                                    {{#each clients}}
-                                        <tr>
-                                            <td>{{ name }}</td>
-                                            <td>{{ ip_address }}</td>
-                                            <td>{{ port }}</td>
-                                            <td></td>
-                                        </tr>
-                                    {{/each}}
-                                {% endraw %}
-                            </script>
                         </tbody>
                     </table>
                 </div>

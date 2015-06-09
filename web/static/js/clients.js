@@ -8,6 +8,8 @@ var clients = {
                 "clients": response["clients"]
             };
 
+            $("#table-clients > tbody").html("");
+
             if (ui.compiledTemplates["template-client"] == undefined) {
                 ui.compileTemplate("template-client");
             }
