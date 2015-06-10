@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from common.models import session, Client
+from common.models import session, Client, ClientGroup
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -40,6 +40,25 @@ def add_client():
     # Finally add the client to the database if all checks passed
     if response["success"]:
         session.add(c)
+        session.commit()
+
+    return jsonify(response)
+
+@api.route("/add_group/", methods=["POST"])
+def add_group():
+    g = ClientGroup( name=request.form.get("group-name").strip(),
+                     description=request.form.get("group-description").strip())
+
+    response = {"success": True, "message": "Group was added successfully"}
+    # Now validate the group before adding it to the database
+
+    # Check that name is filled in
+    if not (g.name):
+        response = {"success": False, "message": "Name is required"}
+
+    # Finally add the client to the database if all checks passed
+    if response["success"]:
+        session.add(g)
         session.commit()
 
     return jsonify(response)
