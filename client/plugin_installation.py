@@ -19,7 +19,7 @@ def unpack_plugin(plugin_name, base64_encoded_plugin):
     # Extract all files in the archive to the plugins directory
     tar = tarfile.open(fileobj=in_memory_file, mode="r:gz")
 
-    # We should now verify that the top level direcotry in the archive is the
+    # We should now verify that the top level directory in the archive is the
     # plugin's name and that the required files exist in the archive before we
     # extract it.
     plugin_files = tar.getnames()
