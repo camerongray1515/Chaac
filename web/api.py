@@ -44,6 +44,22 @@ def add_client():
 
     return jsonify(response)
 
+@api.route("/get_groups/")
+def get_groups():
+    groups = ClientGroup.query.all()
+
+    group_list = []
+    for group in groups:
+        group_dict = {
+            "id": group.id,
+            "name": group.name,
+            "description": group.description,
+            "num_clients": len(ClientGroup.get_members(group))
+        }
+        group_list.append(group_dict)
+
+    return jsonify(groups=group_list)
+
 @api.route("/add_group/", methods=["POST"])
 def add_group():
     g = ClientGroup( name=request.form.get("group-name").strip(),

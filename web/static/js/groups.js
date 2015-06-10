@@ -1,6 +1,25 @@
 var groups = {
     updateGroupList: function() {
-        // Not yet implemented
+        $("#loading-message").removeClass("hidden");
+        $("#table-groups").addClass("hidden");
+
+        data.getGroups(function(response) {
+            var context = {
+                "groups": response["groups"]
+            };
+
+            $("#table-groups > tbody").html("");
+
+            if (ui.compiledTemplates["template-group"] == undefined) {
+                ui.compileTemplate("template-group");
+            }
+            var html = ui.compiledTemplates["template-group"](context);
+
+            $("#table-groups > tbody").append(html);
+
+            $("#loading-message").addClass("hidden");
+            $("#table-groups").removeClass("hidden");
+        });
     },
     addGroup: function() {
         var formData = $(this).serializeArray();

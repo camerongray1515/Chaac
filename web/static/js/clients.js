@@ -13,7 +13,7 @@ var clients = {
             if (ui.compiledTemplates["template-client"] == undefined) {
                 ui.compileTemplate("template-client");
             }
-            var html = ui.compiledTemplates["template-client"](context)
+            var html = ui.compiledTemplates["template-client"](context);
 
             $("#table-clients > tbody").append(html);
 

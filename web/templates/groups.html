@@ -49,7 +49,7 @@
                 <div class="panel-heading">Existing Groups</div>
                 <div class="panel-body">
                     <p id="loading-message"><span class="fa fa-refresh fa-spin"></span> Loading Groups...</p>
-                    <table class="table table-hover hidden" id="table-clients">
+                    <table class="table table-hover hidden" id="table-groups">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -57,9 +57,9 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <script id="template-client" type="text/x-handlebars-template">
+                        <script id="template-group" type="text/x-handlebars-template">
                             {% raw %}
-                                {{#each clients}}
+                                {{#each groups}}
                                     <tr>
                                         <td>{{ name }}</td>
                                         <td>{{ num_clients }}</td>
