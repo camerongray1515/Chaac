@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block additional_js_includes %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/groups.js') }}"></script>
+{% endblock %}
+
+{% block container %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Add New Group</div>
+                <div class="panel-body">
+                    <div id="add-group-alert-container">
+                        <script id="template-alert" type="text/x-handlebars-template">
+                            {% raw %}
+                                <div class="alert alert-{{alert_level}}"><strong>{{prefix}}</strong> {{message}}</div>
+                            {% endraw %}
+                        </script>
+                    </div>
+                    <form id="form-add-group" class="form-horizontal" method="POST">
+                        <div class="form-group">
+                            <label class="col-md-2">Name</label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" id="group-name" name="group-name" placeholder="e.g. Webservers">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2">Description</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="group-description" name="group-description" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-2">
+                                <button class="btn btn-primary">Add Group</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Existing Groups</div>
+                <div class="panel-body">
+                    <p id="loading-message"><span class="fa fa-refresh fa-spin"></span> Loading Groups...</p>
+                    <table class="table table-hover hidden" id="table-clients">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th># Member Clients</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <script id="template-client" type="text/x-handlebars-template">
+                            {% raw %}
+                                {{#each clients}}
+                                    <tr>
+                                        <td>{{ name }}</td>
+                                        <td>{{ num_clients }}</td>
+                                        <td></td>
+                                    </tr>
+                                {{/each}}
+                            {% endraw %}
+                        </script>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
