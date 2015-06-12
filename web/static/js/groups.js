@@ -43,6 +43,12 @@ var groups = {
         var groupID = $(this).attr("data-group-id");
 
         data.getGroup(groupID, function(response) {
+            // If the group does not exist, handle the error and then abort rendering the modal
+            if (!response.success) {
+                ui.showAlert("existing-groups-alert-container", "template-alert", false, response["message"]);
+                return;
+            }
+
             // Now render the template for the modal, put it on the page and then show it
             var html = ui.compileAndRenderTemplate("template-modal-edit-group", response);
 
