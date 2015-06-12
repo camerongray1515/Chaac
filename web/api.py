@@ -86,6 +86,9 @@ def get_group():
     # Fetch the group itself from the database (name, description)
     group = ClientGroup.query.get(group_id)
 
+    if not group:
+        return jsonify({"success": False, "message": "Group not found"})
+
     # Get all groups and all clients in the system
     groups = ClientGroup.query.all()
     clients = Client.query.all()
@@ -130,7 +133,8 @@ def get_group():
         "members": {
             "groups": group_members,
             "clients": client_members
-        }
+        },
+        "success": True
     }
 
     return jsonify(response)
