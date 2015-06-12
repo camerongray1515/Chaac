@@ -99,6 +99,7 @@ def get_group():
     # that are in the group later on
     for group in groups:
         entry = {
+            "id": group.id,
             "name": group.name,
             "is_member": False
         }
@@ -106,6 +107,7 @@ def get_group():
 
     for client in clients:
         entry = {
+            "id": client.id,
             "name": client.name,
             "is_member": False
         }
