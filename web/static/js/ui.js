@@ -18,5 +18,14 @@ var ui = {
     compileTemplate: function(templateId) {
         var source = $("#" + templateId).html();
         ui.compiledTemplates[templateId] = Handlebars.compile(source);
+    },
+    compileAndRenderTemplate: function(templateID, context) {
+        // If the template has not yet been compiled, compile it, then render it and return the HTML
+        if (ui.compiledTemplates[templateID] == undefined) {
+            ui.compileTemplate(templateID);
+        }
+        var html = ui.compiledTemplates[templateID](context);
+
+        return html;
     }
 }

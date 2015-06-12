@@ -10,10 +10,7 @@ var groups = {
 
             $("#table-groups > tbody").html("");
 
-            if (ui.compiledTemplates["template-group"] == undefined) {
-                ui.compileTemplate("template-group");
-            }
-            var html = ui.compiledTemplates["template-group"](context);
+            var html = ui.compileAndRenderTemplate("template-group", context);
 
             $("#table-groups > tbody").append(html);
 
@@ -47,10 +44,7 @@ var groups = {
 
         data.getGroup(groupID, function(response) {
             // Now render the template for the modal, put it on the page and then show it
-            if (ui.compiledTemplates["template-modal-edit-group"] == undefined) {
-                ui.compileTemplate("template-modal-edit-group");
-            }
-            var html = ui.compiledTemplates["template-modal-edit-group"](response);
+            var html = ui.compileAndRenderTemplate("template-modal-edit-group", response);
 
             $("#compiled-modal").html(html);
             $("#compiled-modal > .modal").modal();
