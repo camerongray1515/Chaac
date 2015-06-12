@@ -41,10 +41,25 @@ var groups = {
         });
 
         return false; // Prevent the form from actually submitting
+    },
+    editGroup: function() {
+        var groupID = $(this).attr("data-group-id");
+
+        data.getGroup(groupID, function(response) {
+            // Now render the template for the modal, put it on the page and then show it
+            if (ui.compiledTemplates["template-modal-edit-group"] == undefined) {
+                ui.compileTemplate("template-modal-edit-group");
+            }
+            var html = ui.compiledTemplates["template-modal-edit-group"](response);
+
+            $("#compiled-modal").html(html);
+            $("#compiled-modal > .modal").modal();
+        });
     }
 }
 
 $(document).ready(function() {
     groups.updateGroupList(); // Load in list of groups on page load
     $("#form-add-group").submit(groups.addGroup);
+    $("#table-groups").on("click", ".btn-edit-group", groups.editGroup);
 });

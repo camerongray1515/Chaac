@@ -68,7 +68,7 @@
                                     <tr>
                                         <td>{{ name }}</td>
                                         <td>{{ num_clients }}</td>
-                                        <td></td>
+                                        <td><button class="btn btn-info btn-sm btn-edit-group" data-group-id="{{ id }}">Edit Group</button></td>
                                     </tr>
                                 {{/each}}
                             {% endraw %}
@@ -88,14 +88,14 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="modal-edit-group-title">Editing Group {{group_name}}</h4>
+                            <h4 class="modal-title" id="modal-edit-group-title">Editing Group {{name}}</h4>
                         </div>
                         <div class="modal-body container container-modal">
                             <form id="form-edit-group">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label>Group Name</label>
-                                        <input type="text" class="form-control" name="group-name" value="{{group_name}}">
+                                        <input type="text" class="form-control" name="group-name" value="{{name}}">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Group Description</label>
@@ -107,16 +107,16 @@
                                     <div class="col-md-6">
                                         <label>Member Clients</label>
                                         <div class="checkbox-list form-control">
-                                            {{#each clients}}
-                                                <li><label><input type="checkbox" name="member-client" value="{{client.id}}"> {{client.name}}}</label></li>
+                                            {{#each members.clients}}
+                                                <li><label><input type="checkbox" name="member-client" value="{{this.id}}"> {{this.name}}</label></li>
                                             {{/each}}
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Member Groups</label>
                                         <div class="checkbox-list form-control">
-                                            {{#each groups}}
-                                                <li><label><input type="checkbox" name="member-group" value="{{group.id}}"> {{group.name}}</label></li>
+                                            {{#each members.groups}}
+                                                <li><label><input type="checkbox" name="member-group" value="{{this.id}}"> {{this.name}}</label></li>
                                             {{/each}}
                                         </div>
                                     </div>
