@@ -10,5 +10,8 @@ var data = {
     },
     addGroup: function(data, callback) {
         $.post("/api/add_group/", data, callback);
+    },
+    getGroup: function(groupID, callback) {
+        $.get("/api/get_group/", {"group_id": groupID}, callback);
     }
 }
