@@ -29,6 +29,13 @@
     <!-- Modals are put in here when they have been compiled so that they can be shown -->
     <div id="compiled-modal"></div>
 
+    <!-- Handlebars templates that should be kept on every page -->
+    <script id="template-alert" type="text/x-handlebars-template">
+        {% raw %}
+            <div class="alert alert-{{alert_level}}"><strong>{{prefix}}</strong> {{message}}</div>
+        {% endraw %}
+    </script>
+
     <!-- JQuery -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
     <!-- Boostrap Javascript Includes -->
