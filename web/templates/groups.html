@@ -108,7 +108,7 @@
                                         <label>Member Clients</label>
                                         <div class="checkbox-list form-control">
                                             {{#each members.clients}}
-                                                <li><label><input type="checkbox" name="member-client" value="{{this.id}}"> {{this.name}}</label></li>
+                                                <li><label><input type="checkbox" name="member-client" value="{{this.id}}" {{#if this.is_member}}checked{{/if}}> {{this.name}}</label></li>
                                             {{/each}}
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@
                                         <label>Member Groups</label>
                                         <div class="checkbox-list form-control">
                                             {{#each members.groups}}
-                                                <li><label><input type="checkbox" name="member-group" value="{{this.id}}"> {{this.name}}</label></li>
+                                                <li><label><input type="checkbox" name="member-group" value="{{this.id}}" {{#if this.is_member}}checked{{/if}}> {{this.name}}</label></li>
                                             {{/each}}
                                         </div>
                                     </div>
