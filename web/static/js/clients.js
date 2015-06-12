@@ -30,7 +30,7 @@ var clients = {
         // Add the client and display the server's response.  If it was
         // successful then update the list of clients on the page
         data.addClient(formDict, function(response) {
-            ui.showAlert("add-client-alert-container", "template-alert", response["success"], response["message"]);
+            ui.showAlert("add-client-alert-container", response["success"], response["message"]);
 
             if (response["success"]) {
                 clients.updateClientList();

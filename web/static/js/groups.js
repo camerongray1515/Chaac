@@ -30,7 +30,7 @@ var groups = {
         // Add the group and display the server's response.  If it was
         // successful then update the list of groups on the page
         data.addGroup(formDict, function(response) {
-            ui.showAlert("add-group-alert-container", "template-alert", response["success"], response["message"]);
+            ui.showAlert("add-group-alert-container", response["success"], response["message"]);
 
             if (response["success"]) {
                 groups.updateGroupList();
@@ -45,7 +45,7 @@ var groups = {
         data.getGroup(groupID, function(response) {
             // If the group does not exist, handle the error and then abort rendering the modal
             if (!response.success) {
-                ui.showAlert("existing-groups-alert-container", "template-alert", false, response["message"]);
+                ui.showAlert("existing-groups-alert-container", false, response["message"]);
                 return;
             }
 
