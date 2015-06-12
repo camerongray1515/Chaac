@@ -97,21 +97,21 @@ def get_group():
     client_members = {}
     # Say that none of them are in the group at first, we will then mark the ones
     # that are in the group later on
-    for group in groups:
+    for g in groups:
         entry = {
-            "id": group.id,
-            "name": group.name,
+            "id": g.id,
+            "name": g.name,
             "is_member": False
         }
-        group_members[group.id] = entry
+        group_members[g.id] = entry
 
-    for client in clients:
+    for c in clients:
         entry = {
-            "id": client.id,
-            "name": client.name,
+            "id": c.id,
+            "name": c.name,
             "is_member": False
         }
-        client_members[client.id] = entry
+        client_members[c.id] = entry
 
     # Now get all members of the group and go through them, for each of them, mark
     # them as being a member in the above two dictionaries
