@@ -31,3 +31,28 @@ div.scrollview {
     overflow-y: auto;
     height: calc(100% - 40px); /* 100% height minus the 40px header bar */
 }
+
+/* Custom styling for modals */
+div.modal-wide > .modal-dialog {
+    width: 80%; /* Make the modal wider than usual */
+}
+
+div.container-modal {
+    width: auto; /* This allows the grid system to be used inside a modal */
+}
+
+/* Div padding classes */
+.padding-top-md {
+    padding-top: 25px;
+}
+
+
+/* Scrollable checkbox lists */
+div.checkbox-list {
+    height: 200px;
+    overflow-y: auto;
+}
+
+div.checkbox-list li {
+    list-style: none;
+}

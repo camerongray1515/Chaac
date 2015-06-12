@@ -4,6 +4,11 @@
 
 {% block additional_js_includes %}
     <script type="text/javascript" src="{{ url_for('static', filename='js/groups.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#modal-edit-group").modal();
+        });
+    </script>
 {% endblock %}
 
 {% block container %}
@@ -75,4 +80,56 @@
             </div>
         </div>
     </div>
+
+    <script id="template-modal-edit-group" type="text/x-handlebars-template">
+        {% raw %}
+            <div class="modal modal-wide fade" id="modal-edit-group" tabindex="-1" role="dialog" aria-labelledby="modal-edit-group-title" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="modal-edit-group-title">Editing Group {{group_name}}</h4>
+                        </div>
+                        <div class="modal-body container container-modal">
+                            <form id="form-edit-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Group Name</label>
+                                        <input type="text" class="form-control" name="group-name" value="{{group_name}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Group Description</label>
+                                        <input type="text" class="form-control" name="group-description" value="{{group_description}}">
+                                    </div>
+                                </div>
+
+                                <div class="row padding-top-md">
+                                    <div class="col-md-6">
+                                        <label>Member Clients</label>
+                                        <div class="checkbox-list form-control">
+                                            {{#each clients}}
+                                                <li><label><input type="checkbox" name="member-client" value="{{client.id}}"> {{client.name}}}</label></li>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Member Groups</label>
+                                        <div class="checkbox-list form-control">
+                                            {{#each groups}}
+                                                <li><label><input type="checkbox" name="member-group" value="{{group.id}}"> {{group.name}}</label></li>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endraw %}
+    </script>
 {% endblock %}
