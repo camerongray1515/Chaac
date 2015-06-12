@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from common.models import session, Client, ClientGroup
+from common.models import session, Client, ClientGroup, GroupAssignment
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -76,5 +76,59 @@ def add_group():
     if response["success"]:
         session.add(g)
         session.commit()
+
+    return jsonify(response)
+
+@api.route("/get_group/")
+def get_group():
+    group_id = request.args.get("group_id")
+
+    # Fetch the group itself from the database (name, description)
+    group = ClientGroup.query.get(group_id)
+
+    # Get all groups and all clients in the system
+    groups = ClientGroup.query.all()
+    clients = Client.query.all()
+
+    # Convert these into a dictionary where the value is the group id and which
+    # indexes another dicitonary containing the client/group name and a boolean
+    # defining whether it is a member of this group or not
+    group_members = {}
+    client_members = {}
+    # Say that none of them are in the group at first, we will then mark the ones
+    # that are in the group later on
+    for group in groups:
+        entry = {
+            "name": group.name,
+            "is_member": False
+        }
+        group_members[group.id] = entry
+
+    for client in clients:
+        entry = {
+            "name": client.name,
+            "is_member": False
+        }
+        client_members[client.id] = entry
+
+    # Now get all members of the group and go through them, for each of them, mark
+    # them as being a member in the above two dictionaries
+    group_memberships = GroupAssignment.query.filter(GroupAssignment.client_group_id==group_id)
+    for group_membership in group_memberships:
+        # Check if this is a group or a client and update the appropriate dictionary
+        if group_membership.member_group:
+            group_members[group_membership.member_group]["is_member"] = True
+        else:
+            client_members[client_membership.member_client]["is_member"] = True
+
+
+    response = {
+        "name": group.name,
+        "description": group.description,
+        "members": {
+            "groups": group_members,
+            "clients": client_members
+        }
+    }
 
     return jsonify(response)
