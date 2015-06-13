@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from common.models import session, Client, ClientGroup, GroupAssignment
+from common.models import session, Client, ClientGroup, GroupAssignment, Plugin
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -186,3 +186,19 @@ def edit_group():
         session.commit()
 
     return jsonify(response)
+
+@api.route("/get_plugins/")
+def get_plugins():
+    plugins = Plugin.query.all()
+
+    plugins_list = []
+    for plugin in plugins:
+        plugin_dict = {
+            "id": plugin.id,
+            "name": plugin.name,
+            "description": plugin.description,
+            "version": plugin.version
+        }
+        plugins_list.append(plugin_dict)
+
+    return jsonify(plugins=plugins_list)
