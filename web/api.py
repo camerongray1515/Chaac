@@ -90,7 +90,7 @@ def get_group():
         return jsonify({"success": False, "message": "Group not found"})
 
     # Get all groups and all clients in the system
-    groups = ClientGroup.query.all()
+    groups = ClientGroup.query.filter(ClientGroup.id != group_id)
     clients = Client.query.all()
 
     # Convert these into a dictionary where the value is the group id and which
