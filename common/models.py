@@ -147,10 +147,10 @@ class GroupAssignment(Base):
     client_group_id = Column(Integer, ForeignKey(ClientGroup.id))
     client_group = relationship("ClientGroup", foreign_keys=[client_group_id])
 
-    def __init__(self, member_client_id, member_group_id, plugin_id):
+    def __init__(self, client_group_id, member_client_id=None, member_group_id=None):
         self.member_client_id = member_client_id
         self.member_group_id = member_group_id
-        self.plugin_id = plugin_id
+        self.client_group_id = client_group_id
 
     def __repr__(self):
         return "<GroupAssignment id:{0}, member_client_id:{1}, member_group_id:{2}, client_group_id:{3}>".format(

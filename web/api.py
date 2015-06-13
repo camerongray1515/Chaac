@@ -122,9 +122,9 @@ def get_group():
     for group_membership in group_memberships:
         # Check if this is a group or a client and update the appropriate dictionary
         if group_membership.member_group:
-            group_members[group_membership.member_group]["is_member"] = True
+            group_members[group_membership.member_group.id]["is_member"] = True
         else:
-            client_members[client_membership.member_client]["is_member"] = True
+            client_members[group_membership.member_client.id]["is_member"] = True
 
 
     response = {
@@ -137,5 +137,52 @@ def get_group():
         },
         "success": True
     }
+
+    return jsonify(response)
+
+@api.route("/edit_group/", methods=["POST"])
+def edit_group():
+    group_id = request.form.get("group-id")
+
+    # Get the group and if it doesn't exist, throw an error
+    group = ClientGroup.query.get(group_id)
+
+    if not group:
+        return jsonify({"success": False, "message": "Group not found"})
+
+    response = {"success": True, "message": "Group has been edited successfully"}
+
+    # Update the name and description of the group
+    name = request.form.get("group-name")
+    description = request.form.get("group-description")
+
+    # Name is required
+    if not name.strip():
+        response = {"success": False, "message": "Name is required"}
+
+    if response["success"]:
+        group.name = name
+        group.description = description
+
+        # Now remove all group/client assignments from this group and insert all
+        # the ones that were specified in the request
+        GroupAssignment.query.filter(GroupAssignment.client_group_id==group_id).delete()
+
+        member_groups = request.form.getlist("member-group[]")
+        member_clients = request.form.getlist("member-client[]")
+        print(member_groups)
+
+        if member_groups:
+            for member_id in member_groups:
+                assignment = GroupAssignment(client_group_id=group_id, member_group_id=member_id)
+                session.add(assignment)
+
+        if member_clients:
+            for member_id in member_clients:
+                assignment = GroupAssignment(client_group_id=group_id, member_client_id=member_id)
+                session.add(assignment)
+
+        # Commit all changes to the database
+        session.commit()
 
     return jsonify(response)

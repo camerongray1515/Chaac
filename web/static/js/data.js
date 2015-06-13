@@ -13,5 +13,8 @@ var data = {
     },
     getGroup: function(groupID, callback) {
         $.get("/api/get_group/", {"group_id": groupID}, callback);
-    }
+    },
+    editGroup: function(data, callback) {
+        $.post("/api/edit_group/", data, callback);
+    },
 }

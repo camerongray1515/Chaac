@@ -52,8 +52,20 @@ var groups = {
     },
     saveGroup: function() {
         var formDict = common.getFormDict(this);
-        console.log(formDict);
-        return false;
+        
+        // Save the group and if we are successful, refresh the list and hide the modal.
+        // Depending on whether we are succesful or not will decide where the alert is shown.
+        data.editGroup(formDict, function(response) {
+            if (response["success"]) {
+                $("#compiled-modal > .modal").modal("hide");
+                ui.showAlert("existing-groups-alert-container", response["success"], response["message"]);
+                groups.updateGroupList();
+            } else {
+                ui.showAlert("edit-group-modal-alert-container", response["success"], response["message"]);
+            }
+        });
+
+        return false; // Prevent the form from actually submitting
     }
 }
 
