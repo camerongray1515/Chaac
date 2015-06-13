@@ -49,6 +49,11 @@ var groups = {
             $("#compiled-modal").html(html);
             $("#compiled-modal > .modal").modal();
         });
+    },
+    saveGroup: function() {
+        var formDict = common.getFormDict(this);
+        console.log(formDict);
+        return false;
     }
 }
 
@@ -56,4 +61,5 @@ $(document).ready(function() {
     groups.updateGroupList(); // Load in list of groups on page load
     $("#form-add-group").submit(groups.addGroup);
     $("#table-groups").on("click", ".btn-edit-group", groups.editGroup);
+    $("#compiled-modal").on("submit", "#form-edit-group", groups.saveGroup);
 });
