@@ -75,7 +75,6 @@ class ClientGroup(Base):
                 if client.id not in visited_ids:
                     member_clients_deduped.append(client)
                     visited_ids.append(client.id)
-            visited_group_ids = []
             return member_clients_deduped
         else:
             return member_clients
@@ -87,6 +86,25 @@ class Plugin(Base):
     name = Column(String)
     description = Column(Text)
     version = Column(Float)
+
+    def get_assigned_clients(self):
+        assignments = PluginAssignment.query.filter(PluginAssignment.plugin_id==self.id)
+
+        clients = []
+        for assignment in assignments:
+            if assignment.member_client:
+                clients.append(assignment.member_client)
+            else:
+                clients += assignment.member_group.get_members()
+
+        # Deduplicate the clients list
+        clients_deduped = []
+        visited_ids = []
+        for client in clients:
+            if client.id not in visited_ids:
+                clients_deduped.append(client)
+                visited_ids.append(client.id)
+        return clients_deduped
 
     def __init__(self, name, description, version):
         self.name = name
