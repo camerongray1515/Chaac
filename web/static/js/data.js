@@ -17,4 +17,7 @@ var data = {
     editGroup: function(data, callback) {
         $.post("/api/edit_group/", data, callback);
     },
+    getPlugins: function(callback) {
+        $.get("/api/get_plugins/", callback);
+    },
 }
