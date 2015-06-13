@@ -99,7 +99,7 @@ nav.sidebar, .main{
         height: calc(100% - 40px); /* 100% height minus the 40px header bar */
         margin-left: -160px;
         float: left;
-        z-index: 8000;
+        z-index: 500;
         margin-bottom: 0px;
     }
 
