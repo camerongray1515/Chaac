@@ -1,6 +1,9 @@
 var ui = {
     alertTemplate: undefined,
     showAlert: function(alertContainerId, success, message) {
+        // Hide any alerts that are currently being displayed to prevent confusion
+        $(".alert").parent().hide()
+
         var alertLevel = (success) ? "success" : "danger";
         var prefix = (success) ? "Success!" : "Error!";
 
