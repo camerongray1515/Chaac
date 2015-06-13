@@ -54,7 +54,7 @@ def get_groups():
             "id": group.id,
             "name": group.name,
             "description": group.description,
-            "num_clients": len(ClientGroup.get_members(group))
+            "num_clients": len(group.get_members())
         }
         group_list.append(group_dict)
 

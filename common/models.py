@@ -46,13 +46,9 @@ class ClientGroup(Base):
     def __repr__(self):
         return "<ClientGroup id:{0}, name:{1}>".format(self.id, self.name)
 
-    @staticmethod
-    def get_members(client_group, visited_group_ids=[]):
-        if (client_group == None):
-            raise GroupNotFoundException
-
+    def get_members(self, visited_group_ids=[], deduplicate=True):
         member_clients = []
-        memberships = GroupAssignment.query.filter(GroupAssignment.client_group_id==client_group.id)
+        memberships = GroupAssignment.query.filter(GroupAssignment.client_group_id==self.id)
         for member in memberships:
             # If the member is a client, add it to the list, if it is a group, recurse
             if member.member_client:
@@ -63,18 +59,20 @@ class ClientGroup(Base):
                 # visiting the same groups 
                 if member.member_group_id not in visited_group_ids:
                     visited_group_ids.append(member.member_group_id)
-                    members = ClientGroup.get_members(member.member_group, visited_group_ids)
+                    members = member.member_group.get_members(visited_group_ids, deduplicate=False)
                     member_clients += members # Appened the returned members onto the current list
 
-        # Now deduplicate the list of member clients
-        member_clients_deduped = []
-        visited_ids = []
-        for client in member_clients:
-            if client.id not in visited_ids:
-                member_clients_deduped.append(client)
-                visited_ids.append(client.id)
-        return member_clients_deduped
-
+        if deduplicate:
+            # Now deduplicate the list of member clients
+            member_clients_deduped = []
+            visited_ids = []
+            for client in member_clients:
+                if client.id not in visited_ids:
+                    member_clients_deduped.append(client)
+                    visited_ids.append(client.id)
+            return member_clients_deduped
+        else:
+            return member_clients
 
 class Plugin(Base):
     __tablename__ = "plugins"
