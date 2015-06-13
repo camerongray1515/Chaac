@@ -128,6 +128,7 @@ def get_group():
 
 
     response = {
+        "id": group.id,
         "name": group.name,
         "description": group.description,
         "members": {
