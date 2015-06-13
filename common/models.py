@@ -46,7 +46,11 @@ class ClientGroup(Base):
     def __repr__(self):
         return "<ClientGroup id:{0}, name:{1}>".format(self.id, self.name)
 
-    def get_members(self, visited_group_ids=[], deduplicate=True):
+    def get_members(self, visited_group_ids=None, deduplicate=True):
+        # Cannot pass an empty list as a default argument to a function in Python
+        if visited_group_ids == None:
+            visited_group_ids = []
+        
         member_clients = []
         memberships = GroupAssignment.query.filter(GroupAssignment.client_group_id==self.id)
         for member in memberships:
@@ -62,6 +66,7 @@ class ClientGroup(Base):
                     members = member.member_group.get_members(visited_group_ids, deduplicate=False)
                     member_clients += members # Appened the returned members onto the current list
 
+
         if deduplicate:
             # Now deduplicate the list of member clients
             member_clients_deduped = []
@@ -70,6 +75,7 @@ class ClientGroup(Base):
                 if client.id not in visited_ids:
                     member_clients_deduped.append(client)
                     visited_ids.append(client.id)
+            visited_group_ids = []
             return member_clients_deduped
         else:
             return member_clients
