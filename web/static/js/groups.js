@@ -19,13 +19,7 @@ var groups = {
         });
     },
     addGroup: function() {
-        var formData = $(this).serializeArray();
-
-        var formDict = {};
-        for (var i = formData.length - 1; i >= 0; i--) {
-            var entry = formData[i];
-            formDict[entry["name"]] = entry["value"];
-        };
+        var formDict = common.getFormDict(this);
 
         // Add the group and display the server's response.  If it was
         // successful then update the list of groups on the page
