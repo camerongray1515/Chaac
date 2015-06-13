@@ -17,5 +17,9 @@ def clients():
 def groups():
     return render_template("groups.html")
 
+@app.route("/plugins/")
+def plugins():
+    return render_template("plugins.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
