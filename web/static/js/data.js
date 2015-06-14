@@ -20,4 +20,7 @@ var data = {
     getPlugins: function(callback) {
         $.get("/api/get_plugins/", callback);
     },
+    getPlugin: function(pluginID, callback) {
+        $.get("/api/get_plugin/", {"plugin_id": pluginID}, callback);
+    },
 }
