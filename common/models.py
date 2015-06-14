@@ -148,7 +148,7 @@ class PluginAssignment(Base):
     plugin_id = Column(Integer, ForeignKey(Plugin.id))
     plugin = relationship("Plugin")
 
-    def __init__(self, member_client_id, member_group_id, plugin_id):
+    def __init__(self, plugin_id, member_client_id=None, member_group_id=None):
         self.member_client_id = member_client_id
         self.member_group_id = member_group_id
         self.plugin_id = plugin_id

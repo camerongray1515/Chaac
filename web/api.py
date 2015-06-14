@@ -170,7 +170,6 @@ def edit_group():
 
         member_groups = request.form.getlist("member-group[]")
         member_clients = request.form.getlist("member-client[]")
-        print(member_groups)
 
         if member_groups:
             for member_id in member_groups:
@@ -247,9 +246,9 @@ def get_plugin():
     for assignment in plugin_assignments:
         # Check if this is a group or a client and update the appropriate dictionary
         if assignment.member_group:
-            assigned_groups[assignment.member_group.id]["is_member"] = True
+            assigned_groups[assignment.member_group.id]["is_assigned"] = True
         else:
-            assigned_clients[assignment.member_client.id]["is_member"] = True
+            assigned_clients[assignment.member_client.id]["is_assigned"] = True
 
 
     response = {
@@ -263,5 +262,38 @@ def get_plugin():
         },
         "success": True
     }
+
+    return jsonify(response)
+
+@api.route("/save_plugin_assignments/", methods=["POST"])
+def save_plugin_assignments():
+    plugin_id = request.form.get("plugin-id")
+
+    # Get the plugin and if it doesn't exist, throw an error
+    plugin = Plugin.query.get(plugin_id)
+
+    if not plugin:
+        return jsonify({"success": False, "message": "Plugin not found"})
+
+    response = {"success": True, "message": "Plugin assignments have been updated successfully"}
+
+    # Now remove all assignments for this plugin and then add the ones specified in the request
+    PluginAssignment.query.filter(PluginAssignment.plugin_id==plugin_id).delete()
+
+    assigned_groups = request.form.getlist("assigned-group[]")
+    assigned_clients = request.form.getlist("assigned-client[]")
+
+    if assigned_groups:
+        for member_id in assigned_groups:
+            assignment = PluginAssignment(plugin_id=plugin_id, member_group_id=member_id)
+            session.add(assignment)
+
+    if assigned_clients:
+        for member_id in assigned_clients:
+            assignment = PluginAssignment(plugin_id=plugin_id, member_client_id=member_id)
+            session.add(assignment)
+
+    # Commit all changes to the database
+    session.commit()
 
     return jsonify(response)

@@ -31,10 +31,28 @@ var plugins = {
             $("#compiled-modal").html(html);
             $("#compiled-modal > .modal").modal();
         });
+    },
+    saveAssignments: function() {
+        var formDict = common.getFormDict(this);
+        
+        // Save the assignments and if we are successful, refresh the list and hide the modal.
+        // Depending on whether we are succesful or not will decide where the alert is shown.
+        data.savePluginAssignments(formDict, function(response) {
+            if (response["success"]) {
+                $("#compiled-modal > .modal").modal("hide");
+                ui.showAlert("installed-plugins-alert-container", response["success"], response["message"]);
+                plugins.updatePluginList();
+            } else {
+                ui.showAlert("assign-plugin-modal-alert-container", response["success"], response["message"]);
+            }
+        });
+
+        return false; // Prevent the form from actually submitting
     }
 }
 
 $(document).ready(function() {
     plugins.updatePluginList();
     $("#table-plugins").on("click", ".btn-assign-plugin", plugins.assignPlugin);
+    $("#compiled-modal").on("submit", "#form-assign-plugin", plugins.saveAssignments);
 });

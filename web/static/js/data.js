@@ -23,4 +23,7 @@ var data = {
     getPlugin: function(pluginID, callback) {
         $.get("/api/get_plugin/", {"plugin_id": pluginID}, callback);
     },
+    savePluginAssignments: function(data, callback) {
+        $.post("/api/save_plugin_assignments/", data, callback);
+    },
 }
