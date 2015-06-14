@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from common.models import session, Client, ClientGroup, GroupAssignment, Plugin
+from common.models import session, Client, ClientGroup, GroupAssignment, Plugin, PluginAssignment
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -203,3 +203,65 @@ def get_plugins():
         plugins_list.append(plugin_dict)
 
     return jsonify(plugins=plugins_list)
+
+@api.route("/get_plugin/")
+def get_plugin():
+    plugin_id = request.args.get("plugin_id")
+
+    # Fetch the plugin itself from the database (name, description)
+    plugin = Plugin.query.get(plugin_id)
+
+    if not plugin:
+        return jsonify({"success": False, "message": "Plugin not found"})
+
+    # Get all groups and all clients in the system
+    groups = ClientGroup.query.all()
+    clients = Client.query.all()
+
+    # Convert these into a dictionary where the value is the group id and which
+    # indexes another dicitonary containing the client/group name and a boolean
+    # defining whether this plugin is assigned to it or not
+    assigned_groups = {}
+    assigned_clients = {}
+    # Say that no clients/groups are assigned at first, we will then mark the ones
+    # that are assigned later on
+    for g in groups:
+        entry = {
+            "id": g.id,
+            "name": g.name,
+            "is_assigned": False
+        }
+        assigned_groups[g.id] = entry
+
+    for c in clients:
+        entry = {
+            "id": c.id,
+            "name": c.name,
+            "is_assigned": False
+        }
+        assigned_clients[c.id] = entry
+
+    # Now get all assignments to the plugin and go through them, for each of them, mark
+    # them as being assigned in above two dictionaries
+    plugin_assignments = PluginAssignment.query.filter(PluginAssignment.plugin_id==plugin_id)
+    for assignment in plugin_assignments:
+        # Check if this is a group or a client and update the appropriate dictionary
+        if assignment.member_group:
+            assigned_groups[assignment.member_group.id]["is_member"] = True
+        else:
+            assigned_clients[assignment.member_client.id]["is_member"] = True
+
+
+    response = {
+        "id": plugin.id,
+        "name": plugin.name,
+        "description": plugin.description,
+        "version": plugin.version,
+        "assignments": {
+            "groups": assigned_groups,
+            "clients": assigned_clients
+        },
+        "success": True
+    }
+
+    return jsonify(response)
