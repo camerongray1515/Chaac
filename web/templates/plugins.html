@@ -13,6 +13,7 @@
                 <div class="panel-heading">Installed Plugins</div>
                 <div class="panel-body">
                     <p id="loading-message"><span class="fa fa-refresh fa-spin"></span> Loading Plugins...</p>
+                    <div id="installed-plugins-alert-container"></div>
                     <table class="table table-hover hidden" id="table-plugins">
                         <thead>
                             <tr>
@@ -29,7 +30,9 @@
                                         <td>{{ name }}</td>
                                         <td>{{ version }}</td>
                                         <td>{{ num_clients }}</td>
-                                        <td></td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm btn-assign-plugin" data-plugin-id="{{ id }}">Manage Assignments</button> 
+                                        </td>
                                     </tr>
                                 {{/each}}
                             {% endraw %}
@@ -58,7 +61,7 @@
                                 <div class="col-md-6">
                                     <label>Assigned Clients</label>
                                     <div class="checkbox-list form-control">
-                                        {{#each assigments.clients}}
+                                        {{#each assignments.clients}}
                                             <li><label><input type="checkbox" name="assigned-client[]" value="{{this.id}}" {{#if this.is_assigned}}checked{{/if}}> {{this.name}}</label></li>
                                         {{/each}}
                                     </div>
@@ -66,7 +69,7 @@
                                 <div class="col-md-6">
                                     <label>Assigned Groups</label>
                                     <div class="checkbox-list form-control">
-                                        {{#each assigments.groups}}
+                                        {{#each assignments.groups}}
                                             <li><label><input type="checkbox" name="assigned-group[]" value="{{this.id}}" {{#if this.is_assigned}}checked{{/if}}> {{this.name}}</label></li>
                                         {{/each}}
                                     </div>
