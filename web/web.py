@@ -21,5 +21,9 @@ def groups():
 def plugins():
     return render_template("plugins.html")
 
+@app.route("/schedule/")
+def schedule():
+    return render_template("schedule.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
