@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Schedule{% endblock %}
+
+{% block additional_js_includes %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/schedule.js') }}"></script>
+{% endblock %}
+
+{% block container %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Add new Time Slot/Interval</div>
+                <div class="panel-body">
+                    <div id="add-new-alert-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Existing Time Slots</div>
+                <div class="panel-body">
+                    <p id="slots-loading-message"><span class="fa fa-refresh fa-spin"></span> Loading Time Slots...</p>
+                    <div id="slots-alert-container"></div>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Existing Intervals</div>
+                <div class="panel-body">
+                    <p id="intervals-loading-message"><span class="fa fa-refresh fa-spin"></span> Loading Intervals...</p>
+                    <div id="intervals-alert-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
