@@ -203,7 +203,6 @@ class ScheduleTimeSlot(Base):
 
     id = Column(Integer, primary_key=True)
     time = Column(DateTime)
-    days = Column(String)
     enabled = Column(Boolean)
 
     def __init__(self, time, days):
