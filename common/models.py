@@ -205,13 +205,12 @@ class ScheduleTimeSlot(Base):
     time = Column(DateTime)
     enabled = Column(Boolean)
 
-    def __init__(self, time, days):
+    def __init__(self, time):
         self.time = time
-        self.days = days
         self.enabled = True
 
     def __repr__(self):
-        return "<ScheduleTimeSlot id:{0}, time:{1}, days:{2}, enabled:{3}".format(self.id, self.time,
+        return "<ScheduleTimeSlot id:{0}, time:{1}, enabled:{3}".format(self.id, self.time,
             self.days, self.enabled)
 
 
