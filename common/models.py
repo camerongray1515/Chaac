@@ -1,5 +1,5 @@
 import datetime
-from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Text, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Text, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
 from common.exceptions import GroupNotFoundException
@@ -177,5 +177,63 @@ class GroupAssignment(Base):
     def __repr__(self):
         return "<GroupAssignment id:{0}, member_client_id:{1}, member_group_id:{2}, client_group_id:{3}>".format(
                                     self.id, self.member_client_id, self.member_group_id, self.client_group_id)
+
+
+class ScheduleInterval(Base):
+    __tablename__ = "schedule_intervals"
+
+    id = Column(Integer, primary_key=True)
+    interval_value = Column(Integer)
+    interval_unit = Column(String)
+    enabled = Column(Boolean)
+    last_run = Column(DateTime)
+
+    def __init__(self, interval_value, interval_unit):
+        self.interval_value = interval_value
+        self.interval_unit = interval_unit
+        self.enabled = True
+
+    def __repr__(self):
+        return "<ScheduleInterval id:{0}, interval_value:{1}, interval_unit:{2}, enabled:{3}>".format(
+            self.id, self.interval_value, self.interval_unit, self.enabled)
+
+
+class ScheduleTimeSlot(Base):
+    __tablename__ = "schedule_time_slots"
+
+    id = Column(Integer, primary_key=True)
+    time = Column(DateTime)
+    days = Column(String)
+    enabled = Column(Boolean)
+
+    def __init__(self, time, days):
+        self.time = time
+        self.days = days
+        self.enabled = True
+
+    def __repr__(self):
+        return "<ScheduleTimeSlot id:{0}, time:{1}, days:{2}, enabled:{3}".format(self.id, self.time,
+            self.days, self.enabled)
+
+
+class SchedulePluginAssignment(Base):
+    __tablename__ = "schedule_plugin_assignment"
+
+    id = Column(Integer, primary_key=True)
+    plugin_id = Column(Integer, ForeignKey(Plugin.id))
+    plugin = relationship("Plugin")
+    interval_id = Column(Integer, ForeignKey(ScheduleInterval.id))
+    interval = relationship("ScheduleInterval")
+    slot_id = Column(Integer, ForeignKey(ScheduleTimeSlot.id))
+    slot = relationship("ScheduleTimeSlot")
+
+    def __init__(plugin_id, interval_id=None, slot_id=None):
+        self.plugin_id = plugin_id
+        self.interval_id = interval_id
+        self.slot_id = slot_id
+
+    def __repr__(self):
+        return "<SchedulePluginAssignment id:{0}, plugin_id:{1}, interval_id:{2}, slot_id:{3}>".format(
+            self.id, self.plugin_id, self.interval_id, self.slot_id)
 
 Base.metadata.create_all(engine)

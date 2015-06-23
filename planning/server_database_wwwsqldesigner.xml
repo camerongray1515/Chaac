@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- SQL XML created by WWW SQL Designer, http://code.google.com/p/wwwsqldesigner/ -->
-<!-- Active URL: http://10.1.0.99/~camerong/wwwsqldesigner/ -->
+<!-- Active URL: http://10.0.1.99/~camerong/wwwsqldesigner/ -->
 <sql>
 <datatypes db="mysql">
     <group label="Numeric" color="rgb(238,238,170)">
@@ -159,7 +159,7 @@
 <row name="time" null="1" autoincrement="0">
 <datatype>TIME</datatype>
 <default>NULL</default></row>
-<row name="day" null="1" autoincrement="0">
+<row name="days" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="enabled" null="1" autoincrement="0">
