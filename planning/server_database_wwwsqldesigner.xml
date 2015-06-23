@@ -152,15 +152,12 @@
 <part>id</part>
 </key>
 </table>
-<table x="524" y="627" name="schedule_time_slots">
+<table x="527" y="624" name="schedule_time_slots">
 <row name="id" null="1" autoincrement="1">
 <datatype>TINYINT</datatype>
 <default>NULL</default></row>
 <row name="time" null="1" autoincrement="0">
 <datatype>TIME</datatype>
-<default>NULL</default></row>
-<row name="days" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="enabled" null="1" autoincrement="0">
 <datatype>BINARY</datatype>
@@ -205,6 +202,21 @@
 <datatype>TINYINT</datatype>
 <default>NULL</default><relation table="schedule_time_slots" row="id" />
 </row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="765" y="532" name="schedule_time_slot_days">
+<row name="id" null="1" autoincrement="1">
+<datatype>TINYINT</datatype>
+<default>NULL</default></row>
+<row name="time_slot_id" null="1" autoincrement="0">
+<datatype>TINYINT</datatype>
+<default>NULL</default><relation table="schedule_time_slots" row="id" />
+</row>
+<row name="day" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
