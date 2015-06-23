@@ -216,6 +216,23 @@ class ScheduleTimeSlot(Base):
             self.days, self.enabled)
 
 
+class ScheduleTimeSlotDay(Base):
+    __tablename__ = "schedule_time_slot_days"
+
+    id = Column(Integer, primary_key=True)
+    time_slot_id = Column(Integer, ForeignKey(ScheduleTimeSlot.id))
+    time_slot = relationship("ScheduleTimeSlot")
+    day = Column(String)
+
+    def __init__(self, time_slot_id, day):
+        self.time_slot_id = time_slot_id
+        self.day = day
+
+    def __repr__(self):
+        return "<ScheduleTimeSlotDay id:{0}, time_slot_id:{1}, day:{2}>".format(self.id, self.time_slot_id,
+            self.day)
+
+
 class SchedulePluginAssignment(Base):
     __tablename__ = "schedule_plugin_assignment"
 
