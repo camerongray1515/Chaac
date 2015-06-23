@@ -13,6 +13,17 @@
                 <div class="panel-heading">Add new Time Slot/Interval</div>
                 <div class="panel-body">
                     <div id="add-new-alert-container"></div>
+                    <script id="template-plugin-option" type="text/x-handlebars-template">
+                        <option value="-1">Select a plugin...</option>
+                        {% raw %}
+                            {{#each plugins}}
+                                <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        {% endraw %}
+                    </script>
+                    <select class="plugin-list" class="form-control">
+                        <option value="-1">Loading plugins...</option>
+                    </select>
                 </div>
             </div>
         </div>
