@@ -183,35 +183,41 @@ class ScheduleInterval(Base):
     __tablename__ = "schedule_intervals"
 
     id = Column(Integer, primary_key=True)
+    plugin_id = Column(Integer, ForeignKey(Plugin.id))
+    plugin = relationship("Plugin")
     interval_value = Column(Integer)
     interval_unit = Column(String)
     enabled = Column(Boolean)
     last_run = Column(DateTime)
 
-    def __init__(self, interval_value, interval_unit):
+    def __init__(self, plugin_id, interval_value, interval_unit):
+        self.plugin_id = plugin_id
         self.interval_value = interval_value
         self.interval_unit = interval_unit
         self.enabled = True
 
     def __repr__(self):
-        return "<ScheduleInterval id:{0}, interval_value:{1}, interval_unit:{2}, enabled:{3}>".format(
-            self.id, self.interval_value, self.interval_unit, self.enabled)
+        return "<ScheduleInterval id:{0}, plugin_id:{1}, interval_value:{2}, interval_unit:{3}, enabled:{4}>".format(
+            self.id, self.plugin_id, self.interval_value, self.interval_unit, self.enabled)
 
 
 class ScheduleTimeSlot(Base):
     __tablename__ = "schedule_time_slots"
 
     id = Column(Integer, primary_key=True)
+    plugin_id = Column(Integer, ForeignKey(Plugin.id))
+    plugin = relationship("Plugin")
     time = Column(DateTime)
     enabled = Column(Boolean)
 
-    def __init__(self, time):
+    def __init__(self, plugin_id, time):
+        self.plugin_id = plugin_id
         self.time = time
         self.enabled = True
 
     def __repr__(self):
-        return "<ScheduleTimeSlot id:{0}, time:{1}, enabled:{3}".format(self.id, self.time,
-            self.days, self.enabled)
+        return "<ScheduleTimeSlot id:{0}, plugin_id:{1}, time:{2}, enabled:{3}".format(self.id, self.plugin_id,
+            self.time, self.days, self.enabled)
 
 
 class ScheduleTimeSlotDay(Base):
@@ -229,26 +235,5 @@ class ScheduleTimeSlotDay(Base):
     def __repr__(self):
         return "<ScheduleTimeSlotDay id:{0}, time_slot_id:{1}, day:{2}>".format(self.id, self.time_slot_id,
             self.day)
-
-
-class SchedulePluginAssignment(Base):
-    __tablename__ = "schedule_plugin_assignment"
-
-    id = Column(Integer, primary_key=True)
-    plugin_id = Column(Integer, ForeignKey(Plugin.id))
-    plugin = relationship("Plugin")
-    interval_id = Column(Integer, ForeignKey(ScheduleInterval.id))
-    interval = relationship("ScheduleInterval")
-    slot_id = Column(Integer, ForeignKey(ScheduleTimeSlot.id))
-    slot = relationship("ScheduleTimeSlot")
-
-    def __init__(plugin_id, interval_id=None, slot_id=None):
-        self.plugin_id = plugin_id
-        self.interval_id = interval_id
-        self.slot_id = slot_id
-
-    def __repr__(self):
-        return "<SchedulePluginAssignment id:{0}, plugin_id:{1}, interval_id:{2}, slot_id:{3}>".format(
-            self.id, self.plugin_id, self.interval_id, self.slot_id)
 
 Base.metadata.create_all(engine)
