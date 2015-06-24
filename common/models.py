@@ -190,9 +190,9 @@ class ScheduleInterval(Base):
     enabled = Column(Boolean)
     last_run = Column(DateTime)
 
-    def __init__(self, plugin_id, interval_seconds):
+    def __init__(self, plugin_id, interval_value, interval_unit="seconds"):
         self.plugin_id = plugin_id
-        self.interval_seconds = interval_seconds
+        self.interval = (interval_value, interval_unit)
         self.enabled = True
 
     def __repr__(self):
