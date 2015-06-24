@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- SQL XML created by WWW SQL Designer, http://code.google.com/p/wwwsqldesigner/ -->
-<!-- Active URL: http://10.0.1.99/~camerong/wwwsqldesigner/ -->
+<!-- Active URL: http://jura/~camerong/wwwsqldesigner/ -->
 <sql>
 <datatypes db="mysql">
     <group label="Numeric" color="rgb(238,238,170)">
@@ -178,11 +178,8 @@
 <datatype>TINYINT</datatype>
 <default>NULL</default><relation table="plugins" row="id" />
 </row>
-<row name="interval_value" null="1" autoincrement="0">
+<row name="interval_seconds" null="1" autoincrement="0">
 <datatype>INT</datatype>
-<default>NULL</default></row>
-<row name="interval_unit" null="1" autoincrement="0">
-<datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <row name="enabled" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
