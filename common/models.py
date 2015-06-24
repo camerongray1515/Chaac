@@ -185,20 +185,18 @@ class ScheduleInterval(Base):
     id = Column(Integer, primary_key=True)
     plugin_id = Column(Integer, ForeignKey(Plugin.id))
     plugin = relationship("Plugin")
-    interval_value = Column(Integer)
-    interval_unit = Column(String)
+    interval_seconds = Column(Integer)
     enabled = Column(Boolean)
     last_run = Column(DateTime)
 
-    def __init__(self, plugin_id, interval_value, interval_unit):
+    def __init__(self, plugin_id, interval_seconds):
         self.plugin_id = plugin_id
-        self.interval_value = interval_value
-        self.interval_unit = interval_unit
+        self.interval_seconds = interval_seconds
         self.enabled = True
 
     def __repr__(self):
-        return "<ScheduleInterval id:{0}, plugin_id:{1}, interval_value:{2}, interval_unit:{3}, enabled:{4}>".format(
-            self.id, self.plugin_id, self.interval_value, self.interval_unit, self.enabled)
+        return "<ScheduleInterval id:{0}, plugin_id:{1}, interval_seconds:{2}, enabled:{3}>".format(
+            self.id, self.plugin_id, self.interval_seconds, self.enabled)
 
 
 class ScheduleTimeSlot(Base):
@@ -226,7 +224,7 @@ class ScheduleTimeSlotDay(Base):
     id = Column(Integer, primary_key=True)
     time_slot_id = Column(Integer, ForeignKey(ScheduleTimeSlot.id))
     time_slot = relationship("ScheduleTimeSlot")
-    day = Column(String)
+    day = Column(Integer)
 
     def __init__(self, time_slot_id, day):
         self.time_slot_id = time_slot_id
