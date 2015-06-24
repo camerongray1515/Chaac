@@ -1,8 +1,9 @@
 import datetime
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Text, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
-from common.exceptions import GroupNotFoundException
+from common.exceptions import GroupNotFoundException, InvalidUnitError
 
 # TODO: Store the database connection string in a config file
 engine = create_engine("sqlite:///db.sqlite")
@@ -197,6 +198,43 @@ class ScheduleInterval(Base):
     def __repr__(self):
         return "<ScheduleInterval id:{0}, plugin_id:{1}, interval_seconds:{2}, enabled:{3}>".format(
             self.id, self.plugin_id, self.interval_seconds, self.enabled)
+
+    # Logic to convert values with units into seconds and back
+    SECONDS_IN_MINUTE = 60
+    SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
+    SECONDS_IN_DAY = SECONDS_IN_HOUR * 24
+
+    @hybrid_property
+    def interval(self):
+        seconds = self.interval_seconds
+        # Start from hours and work downards to find the largest unit that the number of seconds divides
+        # exactly into if we find one, return it.  If it doesn't divide exactly into anything, return 
+        # the value in seconds
+        if seconds % self.SECONDS_IN_DAY == 0:
+            return (seconds / self.SECONDS_IN_DAY, "days")
+        elif seconds % self.SECONDS_IN_HOUR == 0:
+            return (seconds / self.SECONDS_IN_HOUR, "hours")
+        elif seconds % self.SECONDS_IN_MINUTE == 0:
+            return (seconds / self.SECONDS_IN_MINUTE, "minutes")
+        else:
+            return (seconds, "seconds")
+
+
+    @interval.setter
+    def interval(self, value_unit_tuple):
+        (value, unit) = value_unit_tuple
+        if unit == "seconds":
+            seconds = value
+        elif unit == "minutes":
+            seconds = value * self.SECONDS_IN_MINUTE
+        elif unit == "hours":
+            seconds = value * self.SECONDS_IN_HOUR
+        elif unit == "days":
+            seconds = value * self.SECONDS_IN_DAY
+        else:
+            raise InvalidUnitError
+
+        self.interval_seconds = seconds    
 
 
 class ScheduleTimeSlot(Base):

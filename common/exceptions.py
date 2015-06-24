@@ -6,3 +6,6 @@ class NoConnectionError(Exception):
 
 class RemoteCommandFailedError(Exception):
     pass
+
+class InvalidUnitError(Exception):
+    pass
