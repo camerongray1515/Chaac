@@ -223,6 +223,7 @@ class ScheduleInterval(Base):
     @interval.setter
     def interval(self, value_unit_tuple):
         (value, unit) = value_unit_tuple
+        value = int(value)
         if unit == "seconds":
             seconds = value
         elif unit == "minutes":

@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
-from common.models import session, Client, ClientGroup, GroupAssignment, Plugin, PluginAssignment
+from common.models import session, Client, ClientGroup, GroupAssignment, Plugin, PluginAssignment, ScheduleInterval
+from common.exceptions import InvalidUnitError
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -297,3 +298,33 @@ def save_plugin_assignments():
     session.commit()
 
     return jsonify(response)
+
+@api.route("/add_interval/", methods=["POST"])
+def add_interval():
+    plugin_id = request.form.get("plugin-id")
+    interval_unit = request.form.get("interval-unit")
+
+    try:
+        interval_value = int(request.form.get("interval-value"))
+    except ValueError:
+        return jsonify({"success": False, "message": "Interval value must be a number"})
+
+    # All fields above are required and the interval value must be greater than 0
+    if not (plugin_id and interval_value and interval_value):
+        return jsonify({"success": False, "message": "All fields are required"})
+    elif interval_value < 1:
+        return jsonify({"success": False, "message": "Interval value must be at least 1"})
+
+    if not Plugin.query.get(plugin_id):
+        return jsonify({"success": False, "message": "Specified plugin does not exist"})
+
+    try:
+        i = ScheduleInterval(plugin_id=plugin_id, interval_value=interval_value, interval_unit=interval_unit)
+    except InvalidUnitError:
+        return jsonify({"success": False, "message": "Invalid unit specified"})
+
+    session.add(i)
+    session.commit()
+
+    return jsonify({"success": True, "message": "Interval has been added successfully"})
+

@@ -12,7 +12,6 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Add new Time Slot/Interval</div>
                 <div class="panel-body">
-                    <div id="add-new-alert-container"></div>
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#tab-interval" data-toggle="tab">Time Interval</a></li>
                         <li><a href="#tab-slot" data-toggle="tab">Time Slot</a></li>
@@ -20,6 +19,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane active container padding-top-md in fade" id="tab-interval">
+                            <div id="add-interval-alert-container"></div>
                             <p>
                                 Setting a time interval will refresh the plugin regularly with a fixed delay in
                                 between the refreshes.  Select a plugin below and then enter the time (and unit)
@@ -29,8 +29,8 @@
                                 <div class="form-group">
                                     <label class="col-md-1">Plugin</label>
                                     <div class="col-md-4">
-                                        <select class="plugin-list form-control" name="plugin">
-                                            <option value="-1">Loading plugins...</option>
+                                        <select class="plugin-list form-control" name="plugin-id">
+                                            <option value="">Loading plugins...</option>
                                         </select>
                                     </div>
                                 </div>
@@ -41,8 +41,8 @@
                                         <input type="number" min="1" name="interval-value" class="form-control">
                                     </div>
                                     <div class="col-md-2">
-                                        <select class="form-control" name="unit">
-                                            <option value="-1">Please pick...</option>
+                                        <select class="form-control" name="interval-unit">
+                                            <option value="">Select...</option>
                                             <option value="seconds">Seconds</option>
                                             <option value="minutes">Minutes</option>
                                             <option value="hours">Hours</option>

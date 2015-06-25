@@ -26,4 +26,7 @@ var data = {
     savePluginAssignments: function(data, callback) {
         $.post("/api/save_plugin_assignments/", data, callback);
     },
+    addInterval: function(data, callback) {
+        $.post("/api/add_interval/", data, callback);
+    }
 }
