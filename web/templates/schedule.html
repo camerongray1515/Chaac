@@ -13,6 +13,54 @@
                 <div class="panel-heading">Add new Time Slot/Interval</div>
                 <div class="panel-body">
                     <div id="add-new-alert-container"></div>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-interval" data-toggle="tab">Time Interval</a></li>
+                        <li><a href="#tab-slot" data-toggle="tab">Time Slot</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active container padding-top-md in fade" id="tab-interval">
+                            <p>
+                                Setting a time interval will refresh the plugin regularly with a fixed delay in
+                                between the refreshes.  Select a plugin below and then enter the time (and unit)
+                                that represents how long to wait between subsequent refreshes of the plugin.
+                            </p>
+                            <form id="form-add-interval" class="form-horizontal padding-top-md">
+                                <div class="form-group">
+                                    <label class="col-md-1">Plugin</label>
+                                    <div class="col-md-4">
+                                        <select class="plugin-list form-control" name="plugin">
+                                            <option value="-1">Loading plugins...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-1">Interval Time</label>
+                                    <div class="col-md-2">
+                                        <input type="number" min="1" name="interval-value" class="form-control">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select class="form-control" name="unit">
+                                            <option value="-1">Please pick...</option>
+                                            <option value="seconds">Seconds</option>
+                                            <option value="minutes">Minutes</option>
+                                            <option value="hours">Hours</option>
+                                            <option value="days">Days</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-1">
+                                        <button type="submit" class="btn btn-primary">Add Interval</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane container padding-top-md fade" id="tab-slot"></div>
+                    </div>
+
                     <script id="template-plugin-option" type="text/x-handlebars-template">
                         <option value="-1">Select a plugin...</option>
                         {% raw %}
@@ -21,9 +69,6 @@
                             {{/each}}
                         {% endraw %}
                     </script>
-                    <select class="plugin-list" class="form-control">
-                        <option value="-1">Loading plugins...</option>
-                    </select>
                 </div>
             </div>
         </div>
