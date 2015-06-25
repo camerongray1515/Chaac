@@ -12,7 +12,7 @@ var schedule = {
         var formDict = common.getFormDict(this);
 
         data.addInterval(formDict, function(response) {
-            ui.showAlert("add-interval-alert-container", response["success"], response["message"]);
+            ui.showAlert("add-new-alert-container", response["success"], response["message"]);
             schedule.updateIntervalList();
         });
 
