@@ -27,7 +27,7 @@
                             </p>
                             <form id="form-add-interval" class="form-horizontal padding-top-md">
                                 <div class="form-group">
-                                    <label class="col-md-1">Plugin</label>
+                                    <label class="col-md-2 control-label">Plugin</label>
                                     <div class="col-md-4">
                                         <select class="plugin-list form-control" name="plugin-id">
                                             <option value="">Loading plugins...</option>
@@ -36,7 +36,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-1">Interval Time</label>
+                                    <label class="col-md-2 control-label">Interval Time</label>
                                     <div class="col-md-2">
                                         <input type="number" min="1" name="interval-value" class="form-control">
                                     </div>
@@ -58,7 +58,62 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane container padding-top-md fade" id="tab-slot"></div>
+                        <div class="tab-pane container padding-top-md fade" id="tab-slot">
+                            <p>
+                                Setting a time slot will run the plugin at a given time of day on the specified days
+                                of the week.  Select a plugin below, enter the time of day it is to run at and select
+                                the weekdays that the plugin is to run on.
+                            </p>
+                            <form id="form-add-slot" class="form-horizontal padding-top-md">
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">Plugin</label>
+                                    <div class="col-md-4">
+                                        <select class="plugin-list form-control" name="plugin-id">
+                                            <option value="">Loading plugins...</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">Time Slot</label>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <input type="number" min="0" max="23" name="slot-hour" class="form-control">
+                                            <span class="input-group-addon">:</span>
+                                            <input type="number" min="0" max="59" name="slot-minute" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">Weekdays</label>
+                                    <div class="col-md-1">
+                                        <label class="checkbox-inline"><input type="checkbox" name="weekdays[]" value="1" checked>Monday</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="checkbox-inline"><input type="checkbox" name="weekdays[]" value="2" checked>Tuesday</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="checkbox-inline"><input type="checkbox" name="weekdays[]" value="3" checked>Thursday</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="checkbox-inline"><input type="checkbox" name="weekdays[]" value="4" checked>Friday</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="checkbox-inline"><input type="checkbox" name="weekdays[]" value="5" checked>Saturday</label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="checkbox-inline"><input type="checkbox" name="weekdays[]" value="6" checked>Sunday</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-1">
+                                        <button type="submit" class="btn btn-primary">Add Time Slot</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                     <script id="template-plugin-option" type="text/x-handlebars-template">
