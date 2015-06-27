@@ -328,3 +328,24 @@ def add_interval():
 
     return jsonify({"success": True, "message": "Interval has been added successfully"})
 
+@api.route("/get_intervals/")
+def get_intervals():
+    intervals = ScheduleInterval.query.all()
+
+    intervals_list = []
+    for interval in intervals:
+        interval_dict = {
+            "plugin": {
+                "id": interval.plugin.id,
+                "name": interval.plugin.name
+            },
+            "time": interval.interval[0],
+            "unit": interval.interval[1],
+            "seconds": interval.interval_seconds,
+            "enabled": interval.enabled,
+            "last_run": interval.last_run
+        }
+
+        intervals_list.append(interval_dict)
+
+    return jsonify({"success": True, "intervals": intervals_list})

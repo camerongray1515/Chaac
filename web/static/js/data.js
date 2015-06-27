@@ -28,5 +28,8 @@ var data = {
     },
     addInterval: function(data, callback) {
         $.post("/api/add_interval/", data, callback);
+    },
+    getIntervals: function(callback) {
+        $.get("/api/get_intervals/", callback);
     }
 }

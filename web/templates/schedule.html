@@ -81,7 +81,6 @@
                 <div class="panel-body">
                     <p id="slots-loading-message"><span class="fa fa-refresh fa-spin"></span> Loading Time Slots...</p>
                     <div id="slots-alert-container"></div>
-                    </table>
                 </div>
             </div>
         </div>
@@ -94,6 +93,27 @@
                 <div class="panel-body">
                     <p id="intervals-loading-message"><span class="fa fa-refresh fa-spin"></span> Loading Intervals...</p>
                     <div id="intervals-alert-container"></div>
+                    <table class="table table-hover hidden" id="table-intervals">
+                        <thead>
+                            <tr>
+                                <th>Plugin</th>
+                                <th>Interval</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <script type="text/x-handlebars-template" id="template-intervals">
+                            {% raw %}
+                                {{#each intervals}}
+                                    <tr>
+                                        <td>{{ plugin.name }}</td>
+                                        <td>{{ time }} {{ unit }}</td>
+                                        <td></td>
+                                    </tr>
+                                {{/each}}
+                            {% endraw %}
+                        </script>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>

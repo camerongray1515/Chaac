@@ -1,6 +1,15 @@
 var schedule = {
     updateIntervalList: function() {
-        // NOT YET IMPLEMENTED
+        $("#intervals-loading-message").removeClass("hidden");
+        $("#table-intervals").addClass("hidden");
+
+        data.getIntervals(function(response) {
+            var html = ui.compileAndRenderTemplate("template-intervals", response);
+            $("#table-intervals > tbody").html(html);
+
+            $("#intervals-loading-message").addClass("hidden");
+            $("#table-intervals").removeClass("hidden");
+        });
     },
     updatePluginList: function() {
         data.getPlugins(function(response) {
@@ -22,5 +31,6 @@ var schedule = {
 
 $(document).ready(function() {
     schedule.updatePluginList();
+    schedule.updateIntervalList();
     $("#form-add-interval").submit(schedule.addInterval);
 });
