@@ -31,5 +31,8 @@ var data = {
     },
     getIntervals: function(callback) {
         $.get("/api/get_intervals/", callback);
-    }
+    },
+    addSlot: function(data, callback) {
+        $.post("/api/add_slot/", data, callback);
+    },
 }

@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, request
-from common.models import session, Client, ClientGroup, GroupAssignment, Plugin, PluginAssignment, ScheduleInterval
+from common.models import session, Client, ClientGroup, GroupAssignment, Plugin, PluginAssignment, ScheduleInterval, ScheduleTimeSlot, ScheduleTimeSlotDay
 from common.exceptions import InvalidUnitError
+import datetime
+import itertools
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -349,3 +351,45 @@ def get_intervals():
         intervals_list.append(interval_dict)
 
     return jsonify({"success": True, "intervals": intervals_list})
+
+@api.route("/add_slot/", methods=["POST"])
+def add_slot():
+    plugin_id = request.form.get("plugin-id")
+
+    try:
+        slot_hour = int(request.form.get("slot-hour"))
+        slot_minute = int(request.form.get("slot-minute"))
+        weekdays = map(int, request.form.getlist("weekdays[]"))
+    except ValueError:
+        return jsonify({"success": False, "message": "Hour and minute of the time slot must be numbers"})
+
+    # Generate multiple iterators since we need to go through the weekdays list twice
+    (weekdays_it1, weekdays_it2) = itertools.tee(weekdays, 2)
+
+    if not Plugin.query.get(plugin_id):
+        return jsonify({"success": False, "message": "Specified plugin does not exist"})
+
+    if slot_hour < 0 or slot_hour > 23:
+        return jsonify({"success": False, "message": "Hour must be between 0 and 23"})
+
+    if slot_minute < 0 or slot_minute > 59:
+        return jsonify({"success": False, "message": "Minute must be between 0 and 59"})
+
+    for weekday in weekdays_it1:
+        if weekday < 1 or weekday > 7:
+            return jsonify({"success": False, "message": "One or more of the specified weekdays was invalid"})
+
+    # Input validation complete, start inserting data
+    time = datetime.time(slot_hour, slot_minute)
+
+    slot = ScheduleTimeSlot(plugin_id=plugin_id, time=time)
+    session.add(slot)
+    session.commit() # Commit so that the slot gets its ID assigned for use with adding the weekdays
+
+    for weekday in weekdays_it2:
+        day = ScheduleTimeSlotDay(time_slot_id=slot.id, day=weekday)
+        session.add(day)
+
+    session.commit()
+
+    return jsonify({"success": True, "message": "Time slot has been added successfully"})

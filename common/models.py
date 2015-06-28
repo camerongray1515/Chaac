@@ -1,5 +1,5 @@
 import datetime
-from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Text, DateTime, Boolean
+from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Text, DateTime, Boolean, Time
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
@@ -244,7 +244,7 @@ class ScheduleTimeSlot(Base):
     id = Column(Integer, primary_key=True)
     plugin_id = Column(Integer, ForeignKey(Plugin.id))
     plugin = relationship("Plugin")
-    time = Column(DateTime)
+    time = Column(Time)
     enabled = Column(Boolean)
 
     def __init__(self, plugin_id, time):
