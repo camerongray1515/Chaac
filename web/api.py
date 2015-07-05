@@ -393,3 +393,26 @@ def add_slot():
     session.commit()
 
     return jsonify({"success": True, "message": "Time slot has been added successfully"})
+
+@api.route("/get_slots/")
+def get_slots():
+    slots = ScheduleTimeSlot.query.all()
+
+    slots_list = []
+    for slot in slots:
+        slot_dict = {
+            "plugin": {
+                "id": slot.plugin.id,
+                "name": slot.plugin.name
+            },
+            "time": {
+                "hours": slot.time.hour,
+                "minutes": slot.time.minute
+            },
+            "days": slot.days,
+            "enabled": slot.enabled
+        }
+
+        slots_list.append(slot_dict)
+
+    return jsonify({"success": True, "slots": slots_list})

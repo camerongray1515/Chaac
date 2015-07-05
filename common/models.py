@@ -247,6 +247,16 @@ class ScheduleTimeSlot(Base):
     time = Column(Time)
     enabled = Column(Boolean)
 
+    @hybrid_property
+    def days(self):
+        days = ScheduleTimeSlotDay.query.filter(ScheduleTimeSlotDay.time_slot==self)
+
+        day_list = []
+        for day in days:
+            day_list.append(day.day)
+
+        return day_list
+
     def __init__(self, plugin_id, time):
         self.plugin_id = plugin_id
         self.time = time
