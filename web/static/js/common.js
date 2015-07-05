@@ -21,5 +21,20 @@ var common = {
         };
 
         return formDict
+    },
+    padNumber: function(number, width, padCharacter) {
+        padCharacter = padCharacter || "0"; // Default value is zero
+        padCharacter = padCharacter.toString();
+        number = number.toString(); // Number needs to be stored as a string
+
+        paddingLength = width - number.length;
+        if (paddingLength <= 0) {
+            // No padding required
+            return number;
+        }
+
+        padding = new Array(paddingLength + 1).join(padCharacter);
+
+        return padding + number;
     }
 }

@@ -139,6 +139,29 @@
                 <div class="panel-body">
                     <p id="slots-loading-message"><span class="fa fa-refresh fa-spin"></span> Loading Time Slots...</p>
                     <div id="slots-alert-container"></div>
+                    <table class="table table-hover hidden" id="table-slots">
+                        <thead>
+                            <tr>
+                                <th>Plugin</th>
+                                <th>Time</th>
+                                <th>Days</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <script type="text/x-handlebars-template" id="template-slots">
+                            {% raw %}
+                                {{#each slots}}
+                                    <tr>
+                                        <td>{{ plugin.name }}</td>
+                                        <td>{{ hours }}:{{ minutes }}</td>
+                                        <td>{{ days }}</td>
+                                        <td></td>
+                                    </tr>
+                                {{/each}}
+                            {% endraw %}
+                        </script>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>

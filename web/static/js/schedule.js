@@ -12,7 +12,37 @@ var schedule = {
         });
     },
     updateSlotList: function() {
-        // NOT YET IMPLEMENTED
+        $("#slots-loading-message").removeClass("hidden");
+        $("#table-slots").addClass("hidden");
+
+        data.getSlots(function(response) {
+            var templateContext = {"slots": []};
+            var dayWords = [null, "Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"];
+            for (var i = response.slots.length - 1; i >= 0; i--) {
+                var slot = response.slots[i];
+
+                // Build up a string to represent the days
+                dayString = "";
+                for (var day = 1; day <= 7; day++) {
+                    if (slot.days.indexOf(day) != -1) {
+                        dayString += dayWords[day] + " ";
+                    }
+                }
+
+                templateContext.slots.push({
+                    "plugin": slot.plugin,
+                    "hours": common.padNumber(slot.time.hours, 2),
+                    "minutes": common.padNumber(slot.time.minutes, 2),
+                    "days": dayString
+                });
+            }
+
+            var html = ui.compileAndRenderTemplate("template-slots", templateContext);
+            $("#table-slots > tbody").html(html);
+        });
+
+        $("#slots-loading-message").addClass("hidden");
+        $("#table-slots").removeClass("hidden");
     },
     updatePluginList: function() {
         data.getPlugins(function(response) {
@@ -45,6 +75,7 @@ var schedule = {
 $(document).ready(function() {
     schedule.updatePluginList();
     schedule.updateIntervalList();
+    schedule.updateSlotList();
     $("#form-add-interval").submit(schedule.addInterval);
     $("#form-add-slot").submit(schedule.addSlot);
 });

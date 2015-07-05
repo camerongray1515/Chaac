@@ -35,4 +35,7 @@ var data = {
     addSlot: function(data, callback) {
         $.post("/api/add_slot/", data, callback);
     },
+    getSlots: function(callback) {
+        $.get("/api/get_slots/", callback);
+    },
 }
