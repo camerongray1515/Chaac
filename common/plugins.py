@@ -66,9 +66,7 @@ def get_installed_plugins():
 
         if os.path.isdir(full_path):
             try:
-                with open(os.path.join(full_path,"info.json"))\
-                                                        as info_file:
-                    
+                with open(os.path.join(full_path,"info.json")) as info_file:
                     plugin_info = json.load(info_file)
                 
                     info_dict = {
@@ -76,16 +74,16 @@ def get_installed_plugins():
                         "class_name": plugin_info["class_name"],
                         "plugin_name": plugin_info["plugin_name"],
                         "description": plugin_info["description"]\
-                                if "description" in plugin_info else ""
+                                        if "description" in plugin_info else ""
                     }
 
                     all_plugins.append(info_dict)
             except (KeyError, ValueError):
-                raise InvalidPluginError(("Plugin '{0}' has an invalid "
-                    "info.json file").format(f))
+                raise InvalidPluginError(("Plugin '{0}' has an invalid info"\
+                                                    ".json file").format(f))
             except FileNotFoundError:
-                raise InvalidPluginError(("Plugin '{0}' does not have "
-                    "an info.json file").format(f))
+                raise InvalidPluginError(("Plugin '{0}' does not have an info"\
+                                                    ".json file").format(f))
 
 
     return all_plugins
