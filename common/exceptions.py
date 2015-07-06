@@ -9,3 +9,6 @@ class RemoteCommandFailedError(Exception):
 
 class InvalidUnitError(Exception):
     pass
+
+class InvalidPluginError(Exception):
+    pass

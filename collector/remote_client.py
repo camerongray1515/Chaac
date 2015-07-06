@@ -3,7 +3,7 @@ import socket
 import json
 
 from common.exceptions import NoConnectionError, RemoteCommandFailedError
-from packaging import encode_plugin
+from common.packaging import encode_plugin
 
 class RemoteClient(object):
     def __init__(self, hostname, port, username, key_path):
