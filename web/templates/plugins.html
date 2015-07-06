@@ -18,7 +18,6 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Version</th>
                                 <th># Clients Assigned</th>
                                 <th>Actions</th>
                             </tr>
@@ -28,7 +27,6 @@
                                 {{#each plugins}}
                                     <tr>
                                         <td>{{ name }}</td>
-                                        <td>{{ version }}</td>
                                         <td>{{ num_clients }}</td>
                                         <td>
                                             <button class="btn btn-info btn-sm btn-assign-plugin" data-plugin-id="{{ id }}">Manage Assignments</button> 

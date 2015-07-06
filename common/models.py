@@ -86,7 +86,6 @@ class Plugin(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     description = Column(Text)
-    version = Column(Float)
 
     def get_assigned_clients(self):
         assignments = PluginAssignment.query.filter(PluginAssignment.plugin_id==self.id)
@@ -107,13 +106,12 @@ class Plugin(Base):
                 visited_ids.append(client.id)
         return clients_deduped
 
-    def __init__(self, name, description, version):
+    def __init__(self, name, description):
         self.name = name
         self.description = description
-        self.version = version
 
     def __repr__(self):
-        return "<Plugin id:{0}, name:{1}, version:{2}>".format(self.id, self.name, self.version)
+        return "<Plugin id:{0}, name:{1}>".format(self.id, self.name)
 
 
 class PluginResult(Base):

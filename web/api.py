@@ -199,7 +199,6 @@ def get_plugins():
             "id": plugin.id,
             "name": plugin.name,
             "description": plugin.description,
-            "version": plugin.version,
             "num_clients": len(plugin.get_assigned_clients())
         }
         plugins_list.append(plugin_dict)
@@ -258,7 +257,6 @@ def get_plugin():
         "id": plugin.id,
         "name": plugin.name,
         "description": plugin.description,
-        "version": plugin.version,
         "assignments": {
             "groups": assigned_groups,
             "clients": assigned_clients
