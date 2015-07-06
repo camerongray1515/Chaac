@@ -3,6 +3,7 @@ import io
 import os
 import base64
 import configparser
+import json
 
 from common.exceptions import InvalidPluginError
 
@@ -45,3 +46,49 @@ def encode_plugin(plugin_name):
 
     # Return a base64 encoded representation of the byte array
     return base64.b64encode(byte_array)
+
+# Returns a list with information about all plugins currently installed
+def get_installed_plugins():
+    """
+    Returns:
+        list: Contains an info dict for each installed plugin
+
+    Raises:
+        InvalidPluginError: If the plugin does not contain an info.json
+                            file or if this file is invalid in some way
+    """
+    repo_directory = config["Plugins"]["repo_directory"]
+
+    all_plugins = []
+
+    for f in os.listdir(repo_directory):
+        full_path = os.path.join(repo_directory, f)
+
+        if os.path.isdir(full_path):
+            try:
+                with open(os.path.join(full_path,"info.json"))\
+                                                        as info_file:
+                    
+                    plugin_info = json.load(info_file)
+                
+                    info_dict = {
+                        "version": plugin_info["version"],
+                        "class_name": plugin_info["class_name"],
+                        "plugin_name": plugin_info["plugin_name"],
+                        "description": plugin_info["description"]\
+                                if "description" in plugin_info else ""
+                    }
+
+                    all_plugins.append(info_dict)
+            except (KeyError, ValueError):
+                raise InvalidPluginError(("Plugin '{0}' has an invalid "
+                    "info.json file").format(f))
+            except FileNotFoundError:
+                raise InvalidPluginError(("Plugin '{0}' does not have "
+                    "an info.json file").format(f))
+
+
+    return all_plugins
+
+if __name__ == "__main__":
+    print(get_installed_plugins())
