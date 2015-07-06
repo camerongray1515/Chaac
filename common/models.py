@@ -1,12 +1,16 @@
 import datetime
+import configparser
+import os
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Text, DateTime, Boolean, Time
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import sessionmaker, relationship, scoped_session
 from common.exceptions import GroupNotFoundException, InvalidUnitError
 
-# TODO: Store the database connection string in a config file
-engine = create_engine("sqlite:///db.sqlite")
+config = configparser.ConfigParser()
+config.read(os.path.join(os.path.dirname(__file__), "config.ini"))
+
+engine = create_engine(config["Database"]["connection_string"])
 Session = sessionmaker(bind=engine)
 session = scoped_session(Session)
 
