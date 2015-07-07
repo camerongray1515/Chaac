@@ -6,6 +6,9 @@ import configparser
 import json
 
 from common.exceptions import InvalidPluginError
+from common.models import session, Plugin
+
+from sqlalchemy import not_
 
 config = configparser.ConfigParser()
 config.read(os.path.join(os.path.dirname(__file__), "config.ini"))
@@ -68,6 +71,11 @@ def get_installed_plugins():
             try:
                 with open(os.path.join(full_path,"info.json")) as info_file:
                     plugin_info = json.load(info_file)
+
+                    if plugin_info["plugin_name"] != f:
+                        raise InvalidPluginError(("Plugin name in info.json "
+                            "does not match the name of the plugin's "
+                            "directory"))
                 
                     info_dict = {
                         "version": plugin_info["version"],
@@ -88,5 +96,46 @@ def get_installed_plugins():
 
     return all_plugins
 
+def update_plugin_database():
+    """
+    Updates the plugin database to reflect the plugins that are
+    currently on disk.  Note, if a plugin has been removed from disk, it
+    will be removed from the database along with any corresponding
+    assignments and stored data.
+
+    Raises:
+        InvalidPluginError: If the plugin does not contain an info.json
+                            file or if this file is invalid in some way
+    """
+    installed_plugins = get_installed_plugins()
+
+    installed_plugin_names = []
+
+    for installed_plugin in installed_plugins:
+        installed_plugin_names.append(installed_plugin["plugin_name"])
+
+        plugins = Plugin.query.filter(
+                Plugin.name==installed_plugin["plugin_name"]).all()
+
+        if plugins:
+            p = plugins[0]
+            p.name = installed_plugin["plugin_name"]
+            p.description = installed_plugin["description"]
+        else:
+            p = Plugin(name=installed_plugin["plugin_name"],
+                    description=installed_plugin["description"])
+
+            session.add(p)
+
+    # Now delete plugins that are in the database but not exist on disk any
+    # longer
+    to_delete = Plugin.query.filter(not_(
+                        Plugin.name.in_(installed_plugin_names)))
+
+    for plugin in to_delete:
+        session.delete(plugin)
+
+    session.commit()
+
 if __name__ == "__main__":
-    print(get_installed_plugins())
+    update_plugin_database()
