@@ -91,6 +91,18 @@ class Plugin(Base):
     name = Column(String)
     description = Column(Text)
 
+    results = relationship("PluginResult",
+            cascade="all, delete, delete-orphan", backref="plugin")
+
+    assignments = relationship("PluginAssignment",
+            cascade="all, delete, delete-orphan", backref="plugin")
+
+    intervals = relationship("ScheduleInterval",
+            cascade="all, delete, delete-orphan", backref="plugin")
+
+    slots = relationship("ScheduleTimeSlot",
+            cascade="all, delete, delete-orphan", backref="plugin")
+
     def get_assigned_clients(self):
         assignments = PluginAssignment.query.filter(PluginAssignment.plugin_id==self.id)
 
@@ -123,7 +135,6 @@ class PluginResult(Base):
 
     id = Column(Integer, primary_key=True)
     plugin_id = Column(Integer, ForeignKey(Plugin.id))
-    plugin = relationship("Plugin")
     alert_level = Column(Integer)
     message = Column(Text)
     value = Column(Float)
@@ -149,7 +160,6 @@ class PluginAssignment(Base):
     member_group_id = Column(Integer, ForeignKey(ClientGroup.id))
     member_group = relationship("ClientGroup")
     plugin_id = Column(Integer, ForeignKey(Plugin.id))
-    plugin = relationship("Plugin")
 
     def __init__(self, plugin_id, member_client_id=None, member_group_id=None):
         self.member_client_id = member_client_id
@@ -187,7 +197,6 @@ class ScheduleInterval(Base):
 
     id = Column(Integer, primary_key=True)
     plugin_id = Column(Integer, ForeignKey(Plugin.id))
-    plugin = relationship("Plugin")
     interval_seconds = Column(Integer)
     enabled = Column(Boolean)
     last_run = Column(DateTime)
@@ -245,7 +254,6 @@ class ScheduleTimeSlot(Base):
 
     id = Column(Integer, primary_key=True)
     plugin_id = Column(Integer, ForeignKey(Plugin.id))
-    plugin = relationship("Plugin")
     time = Column(Time)
     enabled = Column(Boolean)
 
