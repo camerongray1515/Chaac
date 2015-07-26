@@ -59,17 +59,21 @@
                                 <div class="col-md-6">
                                     <label>Assigned Clients</label>
                                     <div class="checkbox-list form-control">
-                                        {{#each assignments.clients}}
-                                            <li><label><input type="checkbox" name="assigned-client[]" value="{{this.id}}" {{#if this.is_assigned}}checked{{/if}}> {{this.name}}</label></li>
-                                        {{/each}}
+                                        <ul>
+                                            {{#each assignments.clients}}
+                                                    <li><label><input type="checkbox" name="assigned-client[]" value="{{this.id}}" {{#if this.is_assigned}}checked{{/if}}> {{this.name}}</label></li>
+                                            {{/each}}
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Assigned Groups</label>
                                     <div class="checkbox-list form-control">
-                                        {{#each assignments.groups}}
-                                            <li><label><input type="checkbox" name="assigned-group[]" value="{{this.id}}" {{#if this.is_assigned}}checked{{/if}}> {{this.name}}</label></li>
-                                        {{/each}}
+                                        <ul>
+                                            {{#each assignments.groups}}
+                                                <li><label><input type="checkbox" name="assigned-group[]" value="{{this.id}}" {{#if this.is_assigned}}checked{{/if}}> {{this.name}}</label></li>
+                                            {{/each}}
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
