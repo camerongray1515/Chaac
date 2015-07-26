@@ -90,6 +90,7 @@ class Plugin(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     description = Column(Text)
+    version = Column(Float)
 
     results = relationship("PluginResult",
             cascade="all, delete, delete-orphan", backref="plugin")
@@ -122,12 +123,14 @@ class Plugin(Base):
                 visited_ids.append(client.id)
         return clients_deduped
 
-    def __init__(self, name, description):
+    def __init__(self, name, description, version):
         self.name = name
         self.description = description
+        self.version = version
 
     def __repr__(self):
-        return "<Plugin id:{0}, name:{1}>".format(self.id, self.name)
+        return "<Plugin id:{0}, name:{1}, version:{2}>".format(self.id,
+                self.name, self.version)
 
 
 class PluginResult(Base):
