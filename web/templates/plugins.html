@@ -10,6 +10,32 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
+                <div class="panel-heading">Install/Update Plugin</div>
+                <div class="panel-body">
+                    <div id="add-group-alert-container"></div>
+                    <p>Select a plugin file below.  This file should be a .tar.gz file that directly contains all plugin files (i.e. not in a subdirectory).</p>
+                    <p>If the plugin is already installed it will be updated, otherwise it will be installed.</p>
+                    <form id="form-add-group" class="form-horizontal" method="POST">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Plugin File</label>
+                            <div class="col-md-5">
+                                <input type="file", name="plugin-file", id="plugin-file">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-2">
+                                <button class="btn btn-primary">Upload Plugin</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
                 <div class="panel-heading">Installed Plugins</div>
                 <div class="panel-body">
                     <p id="loading-message"><span class="fa fa-refresh fa-spin"></span> Loading Plugins...</p>
