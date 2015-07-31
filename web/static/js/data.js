@@ -38,4 +38,14 @@ var data = {
     getSlots: function(callback) {
         $.get("/api/get_slots/", callback);
     },
+    uploadPlugin: function(formData, callback) {
+        $.ajax({
+            url: "/api/upload_plugin/",
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: "POST",
+            success: callback
+        });
+    }
 }

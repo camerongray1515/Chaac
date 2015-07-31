@@ -1,8 +1,11 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from common.models import session, Client, ClientGroup, GroupAssignment, Plugin, PluginAssignment, ScheduleInterval, ScheduleTimeSlot, ScheduleTimeSlotDay
 from common.exceptions import InvalidUnitError
 import datetime
 import itertools
+import tarfile
+import json
+import os
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -414,3 +417,61 @@ def get_slots():
         slots_list.append(slot_dict)
 
     return jsonify({"success": True, "slots": slots_list})
+
+@api.route("/upload_plugin/", methods=["POST"])
+def upload_plugin():
+    # Try to open the plugin file (which is just a .tar.gz archive) and
+    # read the info.json file contained within which contains all the
+    # information about the plugin that we need in order to install it
+    try:
+        plugin_tar = tarfile.open(fileobj=request.files["plugin-file"],
+                mode="r:gz")
+    except ValueError:
+        return jsonify({"success": False, "message": "No plugin selected"})
+    except tarfile.ReadError:
+        return jsonify({"success": False, "message": "Could not read plugin "
+                "file, is it a valid .tar.gz archive?"})
+
+    try:
+        info_file = plugin_tar.extractfile("./info.json")
+    except KeyError:
+        return jsonify({"success": False, "message": "Plugin does not contain "
+                "an info.json file"})
+
+    try:
+        plugin_info = json.loads(info_file.read().decode("UTF-8"))
+    except ValueError:
+        return jsonify({"success": False, "message": "The plugin's info.json "
+                "file could not be understood"})
+
+    # Check if the plugin is already installed, if it is update it.
+    # If we have never seen this plugin before, install it.
+    installed_plugins = Plugin.query.filter(
+            Plugin.name==plugin_info["plugin_name"]).all()
+    plugin_filename = plugin_info["plugin_name"] + ".tar.gz"
+    if installed_plugins:
+        plugin = installed_plugins[0]
+
+        plugin.name = plugin_info["plugin_name"]
+        plugin.description = plugin_info["description"]
+        plugin.version = plugin_info["version"]
+        plugin.filename = plugin_filename
+        plugin.class_name = plugin_info["class_name"]
+        action_taken = "updated"
+    else:
+        plugin = Plugin(name=plugin_info["plugin_name"],
+                description=plugin_info["description"],
+                version=plugin_info["version"],
+                filename=plugin_filename,
+                class_name=plugin_info["class_name"])
+        session.add(plugin)
+        action_taken = "installed"
+    session.commit()
+
+    # Finally save the file out to disk
+    request.files["plugin-file"].seek(0)
+    request.files["plugin-file"].save(os.path.join(
+            current_app.config["PLUGIN_REPOSITORY"], plugin_filename))
+
+    return jsonify({"success": True, "message":
+            "Plugin has been {0} successfully".format(action_taken)})

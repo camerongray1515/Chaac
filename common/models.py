@@ -91,6 +91,8 @@ class Plugin(Base):
     name = Column(String)
     description = Column(Text)
     version = Column(Float)
+    filename = Column(Text)
+    class_name = Column(Text)
 
     results = relationship("PluginResult",
             cascade="all, delete, delete-orphan", backref="plugin")
@@ -123,10 +125,12 @@ class Plugin(Base):
                 visited_ids.append(client.id)
         return clients_deduped
 
-    def __init__(self, name, description, version):
+    def __init__(self, name, description, version, filename, class_name):
         self.name = name
         self.description = description
         self.version = version
+        self.filename = filename
+        self.class_name = class_name
 
     def __repr__(self):
         return "<Plugin id:{0}, name:{1}, version:{2}>".format(self.id,

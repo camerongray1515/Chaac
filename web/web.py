@@ -4,6 +4,7 @@ from api import api
 app = Flask(__name__)
 app.secret_key = 'changemetemp7qWYsGtL5fDHFMhG'
 app.register_blueprint(api)
+app.config["PLUGIN_REPOSITORY"] = "../plugin_repo/"
 
 @app.route("/")
 def index():

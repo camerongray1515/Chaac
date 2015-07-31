@@ -1,4 +1,14 @@
 var plugins = {
+    uploadPlugin: function(event) {
+        event.preventDefault();
+ 
+        var formData = new FormData($("#form-upload-plugin")[0]);
+
+        data.uploadPlugin(formData, function(response) {
+            ui.showAlert("install-plugin-alert-container", response["success"], response["message"]);
+            plugins.updatePluginList();
+        });
+    },
     updatePluginList: function() {
         $("#loading-message").removeClass("hidden");
         $("#table-plugins").addClass("hidden");
@@ -55,4 +65,5 @@ $(document).ready(function() {
     plugins.updatePluginList();
     $("#table-plugins").on("click", ".btn-assign-plugin", plugins.assignPlugin);
     $("#compiled-modal").on("submit", "#form-assign-plugin", plugins.saveAssignments);
+    $("#form-upload-plugin").submit(plugins.uploadPlugin);
 });
