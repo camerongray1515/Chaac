@@ -1,52 +1,70 @@
 import json
-import remote_methods
 import configparser
-from ssh_server import SSHServer
 
-# This method is called whenever a message is received down the SSH
-# connection.  It will decode the JSON and execute the specified method
-# from the "remote_message" plugin then send the result back up the SSH
-# connection encoded as JSON. The "srv" argument is an instance of the
-# SSHServer class and can be used to send data back up the connection
-def server_message_received(srv, msg):
-    request = json.loads(msg)
+from flask import Flask, jsonify, request
+from plugin_helpers import get_plugin_info
+from exceptions import PluginNotFoundError
+from importlib import import_module
 
-    # Check that the method requested is allowed to be called remotely
-    if request['method'] in remote_methods.permitted_methods:
-        # Attempt to call the remote method and catch errors if the system
-        # did not expect the given method in its current state or if the
-        # specified plugin could not be found in the system
-        try:
-            method = getattr(remote_methods, request['method'])
-            result = method(**request['arguments'])
-            error = False
-        except remote_methods.PluginNotFoundException:
-            result = "plugin_not_found"
-            error = True
+app = Flask(__name__)
+app.secret_key = "changemetemp7qWYsGtL5fDHFMhG"
+
+@app.route("/check_plugin_version/", methods=["GET"])
+def check_plugin_version():
+    if not("name" in request.args and "version" in request.args):
+        return jsonify({"success": True, "message": "Must specify a plugin "
+                "name and version to check"})
+    
+    plugin_name = request.args.get("name")
+
+    try:
+        plugin_version = float(request.args.get("version"))
+    except ValueError:
+        return jsonify({"success": False, "message": "Version must be a float"})
+
+
+    try:
+        plugin_info = get_plugin_info(plugin_name)
+    except PluginNotFoundError:
+        # If the plugin is not found, say we want an update to request the plugin to
+        # be installed onto this client
+        return jsonify({"success": True, "want_update": True})
+
+    # Do we want to update the plugin or not?
+    if plugin_version > plugin_info['version']:
+        return jsonify({"success": True, "want_update": True})
     else:
-        result = "invalid_method"
-        error = True
+        return jsonify({"success": True, "want_update": False})
 
-    # Format the data obtained above into the correct JSON string and then
-    # send this back to the connected system through the SSH connection
-    response = json.dumps({"error": error, "result": result})
-    srv.send(response)
+@app.route("/execute_plugin/", methods=["GET"])
+def execute_plugin():
+    if "name" not in request.args:
+        return jsonify(success=False, message="Must specify plugin name")
+    
+
+    plugin_name = request.args.get("name")
+
+    try:
+        plugin_info = get_plugin_info(plugin_name)
+    except PluginNotFoundError:
+        return jsonify(success=False, message="Plugin not found")
+
+    # Attempt to import the plugin module and then instantiate its main class
+    plugin = import_module("plugins.{0}".format(plugin_info["plugin_name"]))
+    MainClass = getattr(plugin, plugin_info["classname"])
+
+    plugin_instance = MainClass()
+
+    # Execute the get_result() method of the plugin
+    result = plugin_instance.get_result()
+
+    data = {
+        'level': result.result_level.value,
+        'message': result.message,
+        'value': result.value
+    }    
+
+    return jsonify(data)
 
 if __name__ == "__main__":
-    print("Chaac client starting up...")
-    # Load in the configuration file
-    config = configparser.ConfigParser()
-    config.read("config.ini")
-
-    # Create an instance of the SSH server, set the callback method that
-    # will be executed whenever a message is receieved down the connection
-    # and then start the SSH server running
-    server = SSHServer( port=int(config['SSH Server']['Port']),
-                        buffer_size=int(config['SSH Server']['SocketBacklog']),
-                        backlog=int(config['SSH Server']['ReceiveBufferSize']),
-                        keys_directory=config['Keys']['KeysDirectory'],
-                        host_key_file=config['Keys']['HostKeyFile'],
-                        authorized_keys_file=config['Keys']['AuthorizedKeysFile'])
-    server.message_received_callback = server_message_received
-    print("Starting SSH server...")
-    server.start()
+    app.run(debug=True)
