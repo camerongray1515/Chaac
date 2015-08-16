@@ -9,6 +9,10 @@ from exceptions import PluginNotFoundError
 from importlib import import_module
 from client_setup import start_setup_wizard
 
+from tornado.wsgi import WSGIContainer
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--setup", help="Run the setup wizard",
         action="store_true")
@@ -89,5 +93,7 @@ if __name__ == "__main__":
         sys.exit()
 
     client.config["CONFIG"] = config
-    client.run(debug=True, use_reloader=False,
-            port=int(config["Server"]["port"]))
+
+    http_server = HTTPServer(WSGIContainer(client))
+    http_server.listen(config["Server"]["port"])
+    IOLoop.instance().start()
