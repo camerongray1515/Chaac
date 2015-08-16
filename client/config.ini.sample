@@ -1,5 +1,0 @@
-[Server]
-port=2200
-
-[Authentication]
-key=NONE

@@ -1,26 +1,34 @@
 import json
 import configparser
+import sys
+import argparse
 
 from flask import Flask, jsonify, request
 from plugin_helpers import get_plugin_info
 from exceptions import PluginNotFoundError
 from importlib import import_module
+from client_setup import start_setup_wizard
 
-app = Flask(__name__)
-app.secret_key = "changemetemp7qWYsGtL5fDHFMhG"
+parser = argparse.ArgumentParser()
+parser.add_argument("--setup", help="Run the setup wizard",
+        action="store_true")
+args = parser.parse_args()
 
-@app.route("/check_plugin_version/", methods=["GET"])
+client = Flask(__name__)
+client.secret_key = "changemetemp7qWYsGtL5fDHFMhG"
+
+@client.route("/check_plugin_version/", methods=["GET"])
 def check_plugin_version():
     if not("name" in request.args and "version" in request.args):
-        return jsonify({"success": True, "message": "Must specify a plugin "
-                "name and version to check"})
+        return jsonify(success=True, message="Must specify a plugin "
+                "name and version to check")
     
     plugin_name = request.args.get("name")
 
     try:
         plugin_version = float(request.args.get("version"))
     except ValueError:
-        return jsonify({"success": False, "message": "Version must be a float"})
+        return jsonify(success=False, message="Version must be a float")
 
 
     try:
@@ -28,15 +36,15 @@ def check_plugin_version():
     except PluginNotFoundError:
         # If the plugin is not found, say we want an update to request the plugin to
         # be installed onto this client
-        return jsonify({"success": True, "want_update": True})
+        return jsonify(success=True, want_update=True)
 
     # Do we want to update the plugin or not?
     if plugin_version > plugin_info['version']:
-        return jsonify({"success": True, "want_update": True})
+        return jsonify(success=True, want_update=True)
     else:
-        return jsonify({"success": True, "want_update": False})
+        return jsonify(success=True, want_update=False)
 
-@app.route("/execute_plugin/", methods=["GET"])
+@client.route("/execute_plugin/", methods=["GET"])
 def execute_plugin():
     if "name" not in request.args:
         return jsonify(success=False, message="Must specify plugin name")
@@ -67,4 +75,19 @@ def execute_plugin():
     return jsonify(data)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    if args.setup:
+        start_server = start_setup_wizard()
+        if not start_server:
+            sys.exit()
+
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    
+    if not config.sections():
+        print("No config file found, you must start the client giving the "
+                "--setup command line argument to run the setup wizard")
+        sys.exit()
+
+    client.config["CONFIG"] = config
+    client.run(debug=True, use_reloader=False,
+            port=int(config["Server"]["port"]))
