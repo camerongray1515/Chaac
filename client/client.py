@@ -2,17 +2,42 @@ import json
 import configparser
 import sys
 import argparse
+import bcrypt
 
 from flask import Flask, jsonify, request
 from plugin_helpers import get_plugin_info
 from exceptions import PluginNotFoundError
 from importlib import import_module
 from client_setup import start_setup_wizard
+from functools import wraps
 
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 
+def require_authentication_key(f):
+    @wraps(f)
+    def authentication_key_valid(*args, **kwargs):
+        authentication_key = request.args.get("key")
+
+        if authentication_key:
+            authentication_key = authentication_key.encode("ascii")
+        else:
+            # Cause the hash function to fail and prevent authentication
+            authentication_key = b""
+
+        correct_key_hash = client.config["CONFIG"]["Security"]\
+                ["authentication_key_hash"].encode("ascii")
+
+        valid = bcrypt.hashpw(authentication_key, correct_key_hash)\
+                == correct_key_hash
+
+        if valid:
+            return f(*args, **kwargs)
+        else:
+            return jsonify(success=False, message="Authentication key "
+                    "incorrect")
+    return authentication_key_valid
 parser = argparse.ArgumentParser()
 parser.add_argument("--setup", help="Run the setup wizard",
         action="store_true")
@@ -22,6 +47,7 @@ client = Flask(__name__)
 client.secret_key = "changemetemp7qWYsGtL5fDHFMhG"
 
 @client.route("/check_plugin_version/", methods=["GET"])
+@require_authentication_key
 def check_plugin_version():
     if not("name" in request.args and "version" in request.args):
         return jsonify(success=True, message="Must specify a plugin "
@@ -49,6 +75,7 @@ def check_plugin_version():
         return jsonify(success=True, want_update=False)
 
 @client.route("/execute_plugin/", methods=["GET"])
+@require_authentication_key
 def execute_plugin():
     if "name" not in request.args:
         return jsonify(success=False, message="Must specify plugin name")
@@ -77,6 +104,9 @@ def execute_plugin():
     }    
 
     return jsonify(data)
+
+
+
 
 if __name__ == "__main__":
     if args.setup:
