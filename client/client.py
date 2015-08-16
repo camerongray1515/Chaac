@@ -94,6 +94,21 @@ if __name__ == "__main__":
 
     client.config["CONFIG"] = config
 
-    http_server = HTTPServer(WSGIContainer(client))
+    print("Server starting up...")
+
+    if config["Server"].getboolean("use_ssl"):
+        try:
+            http_server = HTTPServer(WSGIContainer(client), ssl_options={
+                "certfile": config["Server"]["certfile"],
+                "keyfile": config["Server"]["keyfile"]
+            })
+        except ValueError as ex:
+            print("Could not start server: {0}".format(ex))
+            sys.exit()
+    else:
+        http_server = HTTPServer(WSGIContainer(client))
+
     http_server.listen(config["Server"]["port"])
+
+    print("Server running")
     IOLoop.instance().start()

@@ -29,15 +29,40 @@ def start_setup_wizard():
                 "addresses or nothing at all to allow all IPs",
         "config_section": "Security",
         "config_key": "allowed_ips"
+        },
+
+        {"prompt": "Run the server using SSL? (y/n)",
+        "default": "y",
+        "validator": lambda x: x in ["y", "n"],
+        "validation_error": "Must answer 'y' or 'n'",
+        "answer_converter": lambda x: str(x == "y"),
+        "config_section": "Server",
+        "config_key": "use_ssl"
+        },
+
+        {"prompt": "Path to cert file (.crt)",
+        "config_section": "Server",
+        "config_key": "certfile",
+        "ask_condition": lambda config: config["Server"].getboolean("use_ssl")
+        },
+
+        {"prompt": "Path to key file (.key)",
+        "config_section": "Server",
+        "config_key": "keyfile",
+        "ask_condition": lambda config: config["Server"].getboolean("use_ssl")
         }
     ]
 
     config = configparser.ConfigParser()
 
     for question in questions:
+        if "ask_condition" in question:
+            if not question["ask_condition"](config):
+                continue
+
         answer_invalid=True
         while answer_invalid:
-            if question["default"] != None:
+            if "default" in question:
                 question_string = "{0} [{1}]: ".format(question["prompt"],
                         question["default"])
             else:
@@ -47,13 +72,19 @@ def start_setup_wizard():
             print("")
 
             if answer == "":
-                answer = question["default"]
+                if "default" in question:
+                    answer = question["default"]
+                else:
+                    continue
 
-            if question["validator"](answer):
+            if "validator" not in question or question["validator"](answer):
                 answer_invalid = False
 
                 if question["config_section"] not in config:
                     config[question["config_section"]] = {}
+
+                if "answer_converter" in question:
+                    answer = question["answer_converter"](answer)
 
                 config[question["config_section"]]\
                         [question["config_key"]] = answer
