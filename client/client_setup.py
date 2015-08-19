@@ -50,7 +50,13 @@ def start_setup_wizard():
         "config_section": "Server",
         "config_key": "keyfile",
         "ask_condition": lambda config: config["Server"].getboolean("use_ssl")
-        }
+        },
+
+        {"prompt": "What directory should installed plugins be kept in?",
+        "default": "plugins",
+        "config_section": "Plugins",
+        "config_key": "directory"
+        },
     ]
 
     config = configparser.ConfigParser()

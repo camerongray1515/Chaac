@@ -7,7 +7,7 @@ def require_authentication_key(request, client):
     def decorator(f):
         @wraps(f)
         def authentication_key_valid(*args, **kwargs):
-            authentication_key = request.args.get("key")
+            authentication_key = request.values.get("key")
 
             if authentication_key:
                 authentication_key = authentication_key.encode("ascii")

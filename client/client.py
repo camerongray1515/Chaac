@@ -2,6 +2,7 @@ import json
 import configparser
 import sys
 import argparse
+import os
 
 from flask import Flask, jsonify, request
 from plugin_helpers import get_plugin_info
@@ -13,6 +14,8 @@ from decorators import require_authentication_key
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
+
+from werkzeug import secure_filename
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--setup", help="Run the setup wizard",
@@ -81,6 +84,26 @@ def execute_plugin():
 
     return jsonify(data)
 
+@client.route("/install_plugin/", methods=["POST"])
+@require_authentication_key(request, client)
+def install_plugin():
+    file = request.files.get("file")
+
+    if not file:
+        return jsonify(success=False, message="No file specified")
+
+    filename = secure_filename(file.filename)
+    filename_parts = filename.rsplit(".", 2)
+    
+    if not (filename_parts[1] == "tar" and filename_parts[2] == "gz"):
+        return jsonify(success=False, message="Plugin must be a .tar.gz file")
+
+    file.save(os.path.join(client.config["CONFIG"]["Plugins"]["directory"],
+            filename))
+
+    return jsonify(success=True, message="Plugin has been installed "
+            "successfully")
+
 if __name__ == "__main__":
     if args.setup:
         start_server = start_setup_wizard()
@@ -98,6 +121,11 @@ if __name__ == "__main__":
     client.config["CONFIG"] = config
 
     print("Server starting up...")
+
+    if not os.path.exists(client.config["CONFIG"]["Plugins"]["directory"]):
+        print("Plugins directory does not exist, creating it...", end="")
+        os.makedirs(client.config["CONFIG"]["Plugins"]["directory"])
+        print(" Done!")
 
     if config["Server"].getboolean("use_ssl"):
         try:
