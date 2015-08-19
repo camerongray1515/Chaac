@@ -142,4 +142,8 @@ if __name__ == "__main__":
     http_server.listen(config["Server"]["port"])
 
     print("Server running")
-    IOLoop.instance().start()
+    try:
+        IOLoop.instance().start()
+    except KeyboardInterrupt:
+        print("Server shutting down...")
+        sys.exit()
